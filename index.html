@@ -1109,6 +1109,80 @@
         .shake { animation: shake 0.5s ease; }
         .bounce { animation: bounce 0.5s ease; }
         .pulse { animation: pulse 0.3s ease; }
+        /* =========================
+           HeyGen/Netlify PIP Widget
+           ========================= */
+        #heygen-pip-container {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 9999; /* modal(1000), toast(2000)보다 위 */
+        }
+        
+        #heygen-pip {
+          width: 380px;
+          height: 214px;
+          border: none;
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+          background: transparent;
+        }
+        
+        #heygen-pip.minimized {
+          display: none;
+        }
+        
+        /* 동그란 토글 버튼 */
+        #heygen-pip-toggle {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+        
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          border: none;
+        
+          cursor: pointer;
+          z-index: 10000;
+          display: none; /* 기본은 iframe 보이므로 숨김 */
+          align-items: center;
+          justify-content: center;
+          font-size: 28px;
+        
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+        }
+        
+        #heygen-pip-toggle:hover {
+          transform: scale(1.06);
+        }
+        
+        /* iframe이 minimized 되면 토글 버튼 표시 */
+        #heygen-pip.minimized + #heygen-pip-toggle {
+          display: flex;
+        }
+        
+        /* 라벨 */
+        #heygen-pip-label {
+          position: absolute;
+          top: -35px;
+          left: 0;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          padding: 5px 12px;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        
+        /* 모바일 최적화 */
+        @media (max-width: 768px) {
+          #heygen-pip {
+            width: 300px;
+            height: 169px;
+          }
+        }
     </style>
 </head>
 <body>
