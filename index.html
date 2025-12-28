@@ -1644,6 +1644,21 @@
             });
         }
 
+                // 🆕 PIP에 사용자 정보 전송하는 함수
+        function sendUserInfoToPIP(name, sessionNumber, stats) {
+            const pipIframe = document.getElementById('ai-pip-iframe');
+            if (pipIframe && pipIframe.contentWindow) {
+                pipIframe.contentWindow.postMessage({
+                    type: 'USER_INFO',
+                    name: name,
+                    session: sessionNumber,
+                    isNewUser: sessionNumber === 1,
+                    stats: stats || null
+                }, '*');
+                console.log('📤 PIP에 사용자 정보 전송:', { name, sessionNumber, stats });
+            }
+        }
+
         async function fetchSessionNumber() {
             try {
                 const response = await fetch(`${API_URL}?action=get_stats&player_name=${encodeURIComponent(gameState.playerName)}`);
