@@ -1649,18 +1649,28 @@
                 const response = await fetch(`${API_URL}?action=get_stats&player_name=${encodeURIComponent(gameState.playerName)}`);
                 const data = await response.json();
                 
-                if (data.success && data.stats.total_games) {
+                if (data.success && data.stats && data.stats.total_games) {
                     gameState.sessionNumber = parseInt(data.stats.total_games) + 1;
+                    
+                    // 🆕 기존 사용자: PIP에 통계 포함해서 전송
+                    sendUserInfoToPIP(gameState.playerName, gameState.sessionNumber, data.stats);
                 } else {
                     gameState.sessionNumber = 1;
+                    
+                    // 🆕 신규 사용자: PIP에 기본 정보만 전송
+                    sendUserInfoToPIP(gameState.playerName, 1, null);
                 }
                 
                 document.getElementById('sessionBadge').textContent = `${gameState.sessionNumber}회차`;
                 document.getElementById('currentSession').textContent = gameState.sessionNumber;
+                
             } catch (error) {
                 gameState.sessionNumber = 1;
                 document.getElementById('sessionBadge').textContent = '1회차';
                 document.getElementById('currentSession').textContent = '1';
+                
+                // 🆕 에러 시에도 기본 정보 전송
+                sendUserInfoToPIP(gameState.playerName, 1, null);
             }
         }
 
