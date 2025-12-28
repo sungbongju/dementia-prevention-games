@@ -1621,7 +1621,8 @@
             
             // 회차 정보 가져오기
             fetchSessionNumber();
-            
+            // 🆕 PIP 아바타 시작
+            document.getElementById('heygen-pip').contentWindow.postMessage({ type: 'START_AVATAR' }, '*');
             showToast(`${name}님, 환영합니다! 🎉`, 'success');
         }
 
