@@ -1630,12 +1630,18 @@
                     return;
                 }
             }
+            
+            // 🆕 이름 먼저 비우기!
+            gameState.playerName = '';
+            
+            // 🆕 아바타 리셋 신호 보내기
             document.getElementById('heygen-pip').contentWindow.postMessage({ 
                 type: 'RESET_AVATAR'
-            }, '*'); 
+            }, '*');
             
             resetGames();
-            gameState.playerName = '';
+            // gameState.playerName = ''; ← 삭제 (위로 이동)
+            
             document.getElementById('playerForm').style.display = 'flex';
             document.getElementById('playerInfo').classList.remove('active');
             document.getElementById('playerName').value = '';
