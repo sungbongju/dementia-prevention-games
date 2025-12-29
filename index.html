@@ -2003,6 +2003,11 @@
                 return;
             }
             if (gameState[gameType].completed) return;
+                // 🆕 아바타에게 게임 설명 요청
+            document.getElementById('heygen-pip').contentWindow.postMessage({ 
+                type: 'EXPLAIN_GAME',
+                game: gameType
+            }, '*');
             document.getElementById(`modal-${gameType}`).classList.add('active');
             initGame(gameType);
         }
