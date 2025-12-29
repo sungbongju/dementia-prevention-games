@@ -1630,6 +1630,9 @@
                     return;
                 }
             }
+            document.getElementById('heygen-pip').contentWindow.postMessage({ 
+                type: 'RESET_AVATAR'
+            }, '*'); 
             
             resetGames();
             gameState.playerName = '';
