@@ -2837,29 +2837,27 @@
       const container = document.getElementById('heygen-pip-container');
       const rect = container.getBoundingClientRect();
       
+      const fullWidth = 380;
+      const fullHeight = 214;
+      const miniWidth = 120;
+      const miniHeight = 68;
+      
       if (!isPIPMinimized) {
-        // 최소화: 오른쪽 아래 기준으로 줄어들기
-        const fullWidth = rect.width;
-        const fullHeight = rect.height;
-        const miniWidth = 120;
-        const miniHeight = 68;
+        // 최소화: 우측 하단 고정, 좌측 상단으로 줄어듦
+        const rightEdge = rect.right;
+        const bottomEdge = rect.bottom;
         
-        const newLeft = rect.left + (fullWidth - miniWidth);
-        const newTop = rect.top + (fullHeight - miniHeight);
-        
-        container.style.left = newLeft + 'px';
-        container.style.top = newTop + 'px';
+        container.style.left = (rightEdge - miniWidth) + 'px';
+        container.style.top = (bottomEdge - miniHeight) + 'px';
         container.style.right = 'auto';
         container.style.bottom = 'auto';
       } else {
-        // 복원: 오른쪽 아래 기준으로 커지기
-        const miniWidth = rect.width;
-        const miniHeight = rect.height;
-        const fullWidth = 380;
-        const fullHeight = 214;
+        // 복원: 우측 하단 고정, 좌측 상단으로 커짐
+        const rightEdge = rect.right;
+        const bottomEdge = rect.bottom;
         
-        let newLeft = rect.left - (fullWidth - miniWidth);
-        let newTop = rect.top - (fullHeight - miniHeight);
+        let newLeft = rightEdge - fullWidth;
+        let newTop = bottomEdge - fullHeight;
         
         // 화면 밖으로 나가지 않게
         newLeft = Math.max(0, newLeft);
@@ -2867,6 +2865,8 @@
         
         container.style.left = newLeft + 'px';
         container.style.top = newTop + 'px';
+        container.style.right = 'auto';
+        container.style.bottom = 'auto';
       }
       
       isPIPMinimized = !isPIPMinimized;
