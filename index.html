@@ -1243,11 +1243,6 @@
         }
 
         /* 최소화 */
-        #heygen-pip-container.minimized {
-          width: 120px !important;
-          height: 68px !important;
-        }
-
         #heygen-pip-container.minimized #heygen-pip {
           width: 120px !important;
           height: 68px !important;
@@ -2842,23 +2837,20 @@
       const miniWidth = 120;
       const miniHeight = 68;
       
-      // transition 끄기
-      container.style.transition = 'none';
-      
       if (!isPIPMinimized) {
         // 최소화: 우측 하단 고정
         const rightEdge = rect.right;
         const bottomEdge = rect.bottom;
         
-        isPIPMinimized = true;
-        container.classList.add('minimized');
-        
-        // 강제 reflow 후 위치 설정
-        container.offsetHeight;
         container.style.left = (rightEdge - miniWidth) + 'px';
         container.style.top = (bottomEdge - miniHeight) + 'px';
+        container.style.width = miniWidth + 'px';
+        container.style.height = miniHeight + 'px';
         container.style.right = 'auto';
         container.style.bottom = 'auto';
+        
+        isPIPMinimized = true;
+        container.classList.add('minimized');
       } else {
         // 복원: 우측 하단 고정
         const rightEdge = rect.right;
@@ -2871,21 +2863,16 @@
         newLeft = Math.max(0, newLeft);
         newTop = Math.max(0, newTop);
         
-        isPIPMinimized = false;
-        container.classList.remove('minimized');
-        
-        // 강제 reflow 후 위치 설정
-        container.offsetHeight;
         container.style.left = newLeft + 'px';
         container.style.top = newTop + 'px';
+        container.style.width = fullWidth + 'px';
+        container.style.height = fullHeight + 'px';
         container.style.right = 'auto';
         container.style.bottom = 'auto';
+        
+        isPIPMinimized = false;
+        container.classList.remove('minimized');
       }
-      
-      // transition 복원
-      setTimeout(() => {
-        container.style.transition = '';
-      }, 50);
     }
 
     function closePIP() {
