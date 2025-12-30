@@ -1242,7 +1242,12 @@
           opacity: 1;
         }
 
-        /* 최소화 */
+        /* 🆕 최소화 - container와 iframe 둘 다 설정 */
+        #heygen-pip-container.minimized {
+          width: 120px !important;
+          height: 68px !important;
+        }
+
         #heygen-pip-container.minimized #heygen-pip {
           width: 120px !important;
           height: 68px !important;
@@ -2828,6 +2833,7 @@
 
     let isPIPMinimized = false;
 
+    // 🆕 수정된 함수
     function toggleMinimizePIP() {
       const container = document.getElementById('heygen-pip-container');
       const rect = container.getBoundingClientRect();
@@ -2844,8 +2850,6 @@
         
         container.style.left = (rightEdge - miniWidth) + 'px';
         container.style.top = (bottomEdge - miniHeight) + 'px';
-        container.style.width = miniWidth + 'px';
-        container.style.height = miniHeight + 'px';
         container.style.right = 'auto';
         container.style.bottom = 'auto';
         
@@ -2865,10 +2869,12 @@
         
         container.style.left = newLeft + 'px';
         container.style.top = newTop + 'px';
-        container.style.width = fullWidth + 'px';
-        container.style.height = fullHeight + 'px';
         container.style.right = 'auto';
         container.style.bottom = 'auto';
+        
+        // 🆕 inline width/height 제거 - CSS 기본값 사용
+        container.style.width = '';
+        container.style.height = '';
         
         isPIPMinimized = false;
         container.classList.remove('minimized');
