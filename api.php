@@ -1,5 +1,6 @@
 <?php
 // api.php - 게임 기록 API
+// 🔄 v2 업데이트: yut_score → pattern_score (색상 패턴 기억 게임)
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
@@ -33,26 +34,26 @@ switch ($action) {
         $result = $stmt->fetch();
         $sessionNumber = $result['max_session'] + 1;
         
-        // 기록 저장
+        // 기록 저장 (v2: pattern_score)
         $stmt = $pdo->prepare("
             INSERT INTO game_records 
-            (player_name, session_number, hwatu_score, yut_score, memory_score, proverb_score, calc_score, sequence_score, total_score)
+            (player_name, session_number, hwatu_score, pattern_score, memory_score, proverb_score, calc_score, sequence_score, total_score)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
         $hwatu = intval($data['hwatu_score'] ?? 0);
-        $yut = intval($data['yut_score'] ?? 0);
+        $pattern = intval($data['pattern_score'] ?? 0);
         $memory = intval($data['memory_score'] ?? 0);
         $proverb = intval($data['proverb_score'] ?? 0);
         $calc = intval($data['calc_score'] ?? 0);
         $sequence = intval($data['sequence_score'] ?? 0);
-        $total = $hwatu + $yut + $memory + $proverb + $calc + $sequence;
+        $total = $hwatu + $pattern + $memory + $proverb + $calc + $sequence;
         
         $stmt->execute([
             $playerName,
             $sessionNumber,
             $hwatu,
-            $yut,
+            $pattern,
             $memory,
             $proverb,
             $calc,
@@ -130,7 +131,7 @@ switch ($action) {
         ]);
         break;
     
-    // 통계 조회
+    // 통계 조회 (v2: pattern_score)
     case 'get_stats':
         $playerName = $_GET['player_name'] ?? '';
         
@@ -145,7 +146,7 @@ switch ($action) {
                 MAX(total_score) as best_score,
                 AVG(total_score) as avg_score,
                 MAX(hwatu_score) as best_hwatu,
-                MAX(yut_score) as best_yut,
+                MAX(pattern_score) as best_pattern,
                 MAX(memory_score) as best_memory,
                 MAX(proverb_score) as best_proverb,
                 MAX(calc_score) as best_calc,
