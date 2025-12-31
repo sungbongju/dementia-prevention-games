@@ -7,6 +7,8 @@
 //
 // cp db_config.example.php db_config.php
 // nano db_config.php
+//
+// 🔄 v2 업데이트: yut_score → pattern_score
 
 $host = 'localhost';           // DB 서버 주소
 $username = 'your_username';   // DB 사용자명
@@ -36,14 +38,14 @@ try {
         $pdo->exec("CREATE DATABASE IF NOT EXISTS `$database` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         $pdo->exec("USE `$database`");
         
-        // 테이블 생성
+        // 테이블 생성 (v2: pattern_score)
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS game_records (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 player_name VARCHAR(50) NOT NULL,
                 session_number INT NOT NULL,
                 hwatu_score INT DEFAULT 0,
-                yut_score INT DEFAULT 0,
+                pattern_score INT DEFAULT 0,
                 memory_score INT DEFAULT 0,
                 proverb_score INT DEFAULT 0,
                 calc_score INT DEFAULT 0,
