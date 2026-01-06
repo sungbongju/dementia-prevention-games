@@ -2239,16 +2239,62 @@
         }
 
         function updateCognitiveScores() {
+            // 현재 세션에서 완료한 게임이 있으면 현재 점수 사용
+            // 없으면 DB에서 가져온 가장 최근 기록 사용
+            const lastRecord = dashboardData.history.length > 0 
+                ? dashboardData.history[dashboardData.history.length - 1] 
+                : null;
+            
+            // 기억력: 화투 + 숫자기억 평균
             const memoryScores = [];
-            if (gameState.hwatu.completed) memoryScores.push(gameState.hwatu.score);
-            if (gameState.memory.completed) memoryScores.push(gameState.memory.score);
+            if (gameState.hwatu.completed) {
+                memoryScores.push(gameState.hwatu.score);
+            } else if (lastRecord && lastRecord.hwatu_score > 0) {
+                memoryScores.push(lastRecord.hwatu_score);
+            }
+            if (gameState.memory.completed) {
+                memoryScores.push(gameState.memory.score);
+            } else if (lastRecord && lastRecord.memory_score > 0) {
+                memoryScores.push(lastRecord.memory_score);
+            }
             dashboardData.currentCognitive.memory = memoryScores.length > 0 
                 ? Math.round(memoryScores.reduce((a,b) => a+b, 0) / memoryScores.length) : 0;
             
-            dashboardData.currentCognitive.attention = gameState.yut.completed ? gameState.yut.score : 0;
-            dashboardData.currentCognitive.language = gameState.proverb.completed ? gameState.proverb.score : 0;
-            dashboardData.currentCognitive.calculation = gameState.calc.completed ? gameState.calc.score : 0;
-            dashboardData.currentCognitive.reasoning = gameState.sequence.completed ? gameState.sequence.score : 0;
+            // 주의력: 색상 패턴
+            if (gameState.yut.completed) {
+                dashboardData.currentCognitive.attention = gameState.yut.score;
+            } else if (lastRecord && lastRecord.pattern_score > 0) {
+                dashboardData.currentCognitive.attention = lastRecord.pattern_score;
+            } else {
+                dashboardData.currentCognitive.attention = 0;
+            }
+            
+            // 언어력: 속담
+            if (gameState.proverb.completed) {
+                dashboardData.currentCognitive.language = gameState.proverb.score;
+            } else if (lastRecord && lastRecord.proverb_score > 0) {
+                dashboardData.currentCognitive.language = lastRecord.proverb_score;
+            } else {
+                dashboardData.currentCognitive.language = 0;
+            }
+            
+            // 계산력: 산수
+            if (gameState.calc.completed) {
+                dashboardData.currentCognitive.calculation = gameState.calc.score;
+            } else if (lastRecord && lastRecord.calc_score > 0) {
+                dashboardData.currentCognitive.calculation = lastRecord.calc_score;
+            } else {
+                dashboardData.currentCognitive.calculation = 0;
+            }
+            
+            // 추론력: 순서맞추기
+            if (gameState.sequence.completed) {
+                dashboardData.currentCognitive.reasoning = gameState.sequence.score;
+            } else if (lastRecord && lastRecord.sequence_score > 0) {
+                dashboardData.currentCognitive.reasoning = lastRecord.sequence_score;
+            } else {
+                dashboardData.currentCognitive.reasoning = 0;
+            }
         }
 
         function openDashboard() {
@@ -2275,17 +2321,42 @@
         function renderDashboard() {
             updateCognitiveScores();
             
+            const lastRecord = dashboardData.history.length > 0 
+                ? dashboardData.history[dashboardData.history.length - 1] 
+                : null;
+            
+            // 현재 세션 게임 완료 여부
             const completedCount = gameState.completedGames.length;
-            const overallScore = completedCount > 0 
-                ? Math.round(gameState.totalScore / completedCount) : 0;
+            
+            // 종합 점수: 현재 세션 점수가 있으면 사용, 없으면 DB 최근 기록
+            let overallScore = 0;
+            if (completedCount > 0) {
+                overallScore = Math.round(gameState.totalScore / completedCount);
+            } else if (lastRecord) {
+                overallScore = Math.round(lastRecord.total_score / 6);
+            }
             
             document.getElementById('overallScoreCircle').style.setProperty('--score', overallScore);
             document.getElementById('overallScoreValue').textContent = overallScore;
             
             // 점수 변화 표시
             const scoreChangeEl = document.getElementById('scoreChange');
-            if (dashboardData.history.length > 0 && completedCount > 0) {
-                const lastRecord = dashboardData.history[dashboardData.history.length - 1];
+            if (dashboardData.history.length > 1 && completedCount === 0) {
+                // 현재 세션 미시작 - 이전 기록과 비교
+                const prevRecord = dashboardData.history[dashboardData.history.length - 2];
+                const diff = Math.round(lastRecord.total_score / 6) - Math.round(prevRecord.total_score / 6);
+                
+                if (diff > 0) {
+                    scoreChangeEl.className = 'score-change up';
+                    scoreChangeEl.textContent = `▲ ${diff}점 향상 (지난 기록)`;
+                } else if (diff < 0) {
+                    scoreChangeEl.className = 'score-change down';
+                    scoreChangeEl.textContent = `▼ ${Math.abs(diff)}점 하락 (지난 기록)`;
+                } else {
+                    scoreChangeEl.className = 'score-change same';
+                    scoreChangeEl.textContent = '― 유지 (지난 기록)';
+                }
+            } else if (dashboardData.history.length > 0 && completedCount > 0) {
                 const lastAvg = Math.round(lastRecord.total_score / 6);
                 const diff = overallScore - lastAvg;
                 
@@ -2299,6 +2370,9 @@
                     scoreChangeEl.className = 'score-change same';
                     scoreChangeEl.textContent = '― 유지';
                 }
+            } else if (lastRecord) {
+                scoreChangeEl.className = 'score-change same';
+                scoreChangeEl.textContent = '― 최근 기록 기준';
             } else {
                 scoreChangeEl.className = 'score-change same';
                 scoreChangeEl.textContent = completedCount > 0 ? '― 첫 기록' : '― 게임을 시작하세요';
@@ -2344,13 +2418,19 @@
                 weakAlert.style.display = 'none';
             }
             
-            // 게임별 점수
-            document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed ? gameState.hwatu.score : '-';
-            document.getElementById('dash-yut').textContent = gameState.yut.completed ? gameState.yut.score : '-';
-            document.getElementById('dash-memory').textContent = gameState.memory.completed ? gameState.memory.score : '-';
-            document.getElementById('dash-proverb').textContent = gameState.proverb.completed ? gameState.proverb.score : '-';
-            document.getElementById('dash-calc').textContent = gameState.calc.completed ? gameState.calc.score : '-';
-            document.getElementById('dash-sequence').textContent = gameState.sequence.completed ? gameState.sequence.score : '-';
+            // 게임별 점수 - 현재 세션 또는 DB 최근 기록
+            document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed 
+                ? gameState.hwatu.score : (lastRecord ? lastRecord.hwatu_score : '-');
+            document.getElementById('dash-yut').textContent = gameState.yut.completed 
+                ? gameState.yut.score : (lastRecord ? lastRecord.pattern_score : '-');
+            document.getElementById('dash-memory').textContent = gameState.memory.completed 
+                ? gameState.memory.score : (lastRecord ? lastRecord.memory_score : '-');
+            document.getElementById('dash-proverb').textContent = gameState.proverb.completed 
+                ? gameState.proverb.score : (lastRecord ? lastRecord.proverb_score : '-');
+            document.getElementById('dash-calc').textContent = gameState.calc.completed 
+                ? gameState.calc.score : (lastRecord ? lastRecord.calc_score : '-');
+            document.getElementById('dash-sequence').textContent = gameState.sequence.completed 
+                ? gameState.sequence.score : (lastRecord ? lastRecord.sequence_score : '-');
             
             renderTrendChart();
             renderInsights();
