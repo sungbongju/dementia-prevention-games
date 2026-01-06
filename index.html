@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>두뇌 건강 전통놀이</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --hanji-cream: #F5F0E6;
@@ -403,6 +405,11 @@
             background: var(--dancheong-red);
         }
 
+        /* 🆕 대시보드 버튼 */
+        .action-btn.dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         .action-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
@@ -439,6 +446,11 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
+        /* 🆕 대시보드 모달 넓게 */
+        .modal-content.wide {
+            max-width: 950px;
+        }
+
         .modal-header {
             background: var(--dancheong-red);
             padding: 25px 30px;
@@ -450,6 +462,7 @@
 
         .modal-header.blue { background: var(--dancheong-blue); }
         .modal-header.green { background: var(--dancheong-green); }
+        .modal-header.purple { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
 
         .modal-title {
             font-family: 'Noto Serif KR', serif;
@@ -1069,6 +1082,239 @@
         .toast.success { background: var(--dancheong-green); }
         .toast.error { background: var(--dancheong-red); }
 
+        /* ============================================
+           🆕 인지 기능 대시보드 스타일
+           ============================================ */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .dashboard-card h3 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.3rem;
+            color: var(--ink-black);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overall-score {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--dancheong-blue) calc(var(--score) * 1%),
+                #e0e0e0 0
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .score-circle-value {
+            position: relative;
+            z-index: 1;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--dancheong-blue);
+        }
+
+        .score-label-text {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .score-change {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .score-change.up { background: #E8F5E9; color: var(--dancheong-green); }
+        .score-change.down { background: #FFEBEE; color: var(--dancheong-red); }
+        .score-change.same { background: #F5F5F5; color: #888; }
+
+        .cognitive-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .cognitive-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cognitive-bar-label {
+            width: 80px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink-black);
+        }
+
+        .cognitive-bar-track {
+            flex: 1;
+            height: 28px;
+            background: #f0f0f0;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .cognitive-bar-fill {
+            height: 100%;
+            border-radius: 14px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            min-width: 40px;
+        }
+
+        .cognitive-bar-fill.memory { background: linear-gradient(90deg, #1B4965, #2980b9); }
+        .cognitive-bar-fill.attention { background: linear-gradient(90deg, #2D5016, #27ae60); }
+        .cognitive-bar-fill.language { background: linear-gradient(90deg, #C73E3A, #e74c3c); }
+        .cognitive-bar-fill.calculation { background: linear-gradient(90deg, #6B4423, #8B4513); }
+        .cognitive-bar-fill.reasoning { background: linear-gradient(90deg, #4A1942, #8e44ad); }
+
+        .cognitive-bar-value {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .cognitive-bar-percent {
+            width: 50px;
+            text-align: right;
+            font-weight: 700;
+            color: var(--ink-black);
+        }
+
+        .weak-area-alert {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            border-left: 4px solid #FF9800;
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .weak-area-alert h4 {
+            color: #E65100;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .weak-area-alert p {
+            color: #5D4037;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        .game-scores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .game-score-item {
+            background: var(--hanji-cream);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .game-score-item .icon { font-size: 2rem; margin-bottom: 8px; }
+        .game-score-item .name { font-size: 0.85rem; color: #666; margin-bottom: 5px; }
+        .game-score-item .score {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink-black);
+        }
+
+        .game-score-item .cognitive-tag {
+            font-size: 0.75rem;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .game-score-item .cognitive-tag.memory { background: var(--dancheong-blue); }
+        .game-score-item .cognitive-tag.attention { background: var(--dancheong-green); }
+        .game-score-item .cognitive-tag.language { background: var(--dancheong-red); }
+        .game-score-item .cognitive-tag.calculation { background: #6B4423; }
+        .game-score-item .cognitive-tag.reasoning { background: #4A1942; }
+
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .insight-item .icon { font-size: 1.3rem; }
+        .insight-item .text {
+            font-size: 0.95rem;
+            color: var(--ink-black);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .game-scores-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         /* 푸터 */
         .footer {
             text-align: center;
@@ -1343,6 +1589,9 @@
             <button class="action-btn save" id="saveBtn" onclick="saveRecord()" disabled>
                 💾 기록 저장하기
             </button>
+            <button class="action-btn dashboard" onclick="openDashboard()">
+                📊 인지 대시보드
+            </button>
             <button class="action-btn ranking" onclick="showRankingModal()">
                 🏆 전체 랭킹
             </button>
@@ -1440,6 +1689,149 @@
 
     <!-- 토스트 메시지 -->
     <div class="toast" id="toast"></div>
+
+    <!-- 🆕 인지 기능 대시보드 모달 -->
+    <div class="modal" id="modal-dashboard">
+        <div class="modal-content wide">
+            <div class="modal-header purple">
+                <h2 class="modal-title">📊 인지 기능 대시보드</h2>
+                <button class="close-btn" onclick="closeDashboard()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="dashboard-grid">
+                    <!-- 종합 인지 점수 -->
+                    <div class="dashboard-card">
+                        <h3>🧠 종합 인지 점수</h3>
+                        <div class="overall-score">
+                            <div class="score-circle" id="overallScoreCircle" style="--score: 0">
+                                <span class="score-circle-value" id="overallScoreValue">0</span>
+                            </div>
+                            <div class="score-label-text">100점 만점</div>
+                            <div class="score-change same" id="scoreChange">― 첫 플레이</div>
+                        </div>
+                    </div>
+
+                    <!-- 5대 인지 영역 -->
+                    <div class="dashboard-card">
+                        <h3>🎯 5대 인지 영역</h3>
+                        <div class="cognitive-bars">
+                            <div class="cognitive-bar-item">
+                                <div class="cognitive-bar-label">🧠 기억력</div>
+                                <div class="cognitive-bar-track">
+                                    <div class="cognitive-bar-fill memory" id="bar-memory" style="width: 0%">
+                                        <span class="cognitive-bar-value" id="val-memory"></span>
+                                    </div>
+                                </div>
+                                <div class="cognitive-bar-percent" id="pct-memory">0%</div>
+                            </div>
+                            <div class="cognitive-bar-item">
+                                <div class="cognitive-bar-label">👁️ 주의력</div>
+                                <div class="cognitive-bar-track">
+                                    <div class="cognitive-bar-fill attention" id="bar-attention" style="width: 0%">
+                                        <span class="cognitive-bar-value" id="val-attention"></span>
+                                    </div>
+                                </div>
+                                <div class="cognitive-bar-percent" id="pct-attention">0%</div>
+                            </div>
+                            <div class="cognitive-bar-item">
+                                <div class="cognitive-bar-label">💬 언어력</div>
+                                <div class="cognitive-bar-track">
+                                    <div class="cognitive-bar-fill language" id="bar-language" style="width: 0%">
+                                        <span class="cognitive-bar-value" id="val-language"></span>
+                                    </div>
+                                </div>
+                                <div class="cognitive-bar-percent" id="pct-language">0%</div>
+                            </div>
+                            <div class="cognitive-bar-item">
+                                <div class="cognitive-bar-label">🔢 계산력</div>
+                                <div class="cognitive-bar-track">
+                                    <div class="cognitive-bar-fill calculation" id="bar-calculation" style="width: 0%">
+                                        <span class="cognitive-bar-value" id="val-calculation"></span>
+                                    </div>
+                                </div>
+                                <div class="cognitive-bar-percent" id="pct-calculation">0%</div>
+                            </div>
+                            <div class="cognitive-bar-item">
+                                <div class="cognitive-bar-label">🔄 추론력</div>
+                                <div class="cognitive-bar-track">
+                                    <div class="cognitive-bar-fill reasoning" id="bar-reasoning" style="width: 0%">
+                                        <span class="cognitive-bar-value" id="val-reasoning"></span>
+                                    </div>
+                                </div>
+                                <div class="cognitive-bar-percent" id="pct-reasoning">0%</div>
+                            </div>
+                        </div>
+                        <div class="weak-area-alert" id="weakAreaAlert" style="display: none;">
+                            <h4>⚠️ 개선이 필요한 영역</h4>
+                            <p id="weakAreaText"></p>
+                        </div>
+                    </div>
+
+                    <!-- 점수 추이 그래프 -->
+                    <div class="dashboard-card full-width">
+                        <h3>📈 점수 추이</h3>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 게임별 현재 점수 -->
+                    <div class="dashboard-card full-width">
+                        <h3>🎮 게임별 점수</h3>
+                        <div class="game-scores-grid">
+                            <div class="game-score-item">
+                                <div class="icon">🎴</div>
+                                <div class="name">화투 짝맞추기</div>
+                                <div class="score" id="dash-hwatu">-</div>
+                                <span class="cognitive-tag memory">기억력</span>
+                            </div>
+                            <div class="game-score-item">
+                                <div class="icon">🎨</div>
+                                <div class="name">색상 패턴</div>
+                                <div class="score" id="dash-yut">-</div>
+                                <span class="cognitive-tag attention">주의력</span>
+                            </div>
+                            <div class="game-score-item">
+                                <div class="icon">🔢</div>
+                                <div class="name">숫자 기억</div>
+                                <div class="score" id="dash-memory">-</div>
+                                <span class="cognitive-tag memory">기억력</span>
+                            </div>
+                            <div class="game-score-item">
+                                <div class="icon">📜</div>
+                                <div class="name">속담 완성</div>
+                                <div class="score" id="dash-proverb">-</div>
+                                <span class="cognitive-tag language">언어력</span>
+                            </div>
+                            <div class="game-score-item">
+                                <div class="icon">🧮</div>
+                                <div class="name">산수 계산</div>
+                                <div class="score" id="dash-calc">-</div>
+                                <span class="cognitive-tag calculation">계산력</span>
+                            </div>
+                            <div class="game-score-item">
+                                <div class="icon">🔄</div>
+                                <div class="name">순서 맞추기</div>
+                                <div class="score" id="dash-sequence">-</div>
+                                <span class="cognitive-tag reasoning">추론력</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI 인사이트 -->
+                    <div class="dashboard-card full-width">
+                        <h3>💡 AI 분석 인사이트</h3>
+                        <div class="insights-list" id="insightsList">
+                            <div class="insight-item">
+                                <span class="icon">📋</span>
+                                <span class="text">게임을 완료하면 상세한 분석 결과를 볼 수 있습니다.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 게임 모달들 -->
     <!-- 화투 짝맞추기 모달 -->
@@ -1705,6 +2097,19 @@
             sequence: { score: 0, completed: false }
         };
 
+        // 🆕 대시보드용 데이터
+        let dashboardData = {
+            history: [],
+            currentCognitive: {
+                memory: 0,
+                attention: 0,
+                language: 0,
+                calculation: 0,
+                reasoning: 0
+            }
+        };
+        let trendChart = null;
+
         // 토스트 메시지
         function showToast(message, type = '') {
             const toast = document.getElementById('toast');
@@ -1797,6 +2202,9 @@
                 document.getElementById('sessionBadge').textContent = `${gameState.sessionNumber}회차`;
                 document.getElementById('currentSession').textContent = gameState.sessionNumber;
                 
+                // 🆕 대시보드용 히스토리 로드
+                await loadDashboardHistory();
+                
             } catch (error) {
                 gameState.sessionNumber = 1;
                 document.getElementById('sessionBadge').textContent = '1회차';
@@ -1811,6 +2219,255 @@
             }, '*');
         }
 
+        // ============================================
+        // 🆕 대시보드 관련 함수들
+        // ============================================
+        
+        async function loadDashboardHistory() {
+            if (!gameState.playerName) return;
+            
+            try {
+                const response = await fetch(`${API_URL}?action=get_records&player_name=${encodeURIComponent(gameState.playerName)}`);
+                const data = await response.json();
+                
+                if (data.success && data.records) {
+                    dashboardData.history = data.records.slice(0, 10).reverse();
+                }
+            } catch (error) {
+                console.error('히스토리 로드 실패:', error);
+            }
+        }
+
+        function updateCognitiveScores() {
+            const memoryScores = [];
+            if (gameState.hwatu.completed) memoryScores.push(gameState.hwatu.score);
+            if (gameState.memory.completed) memoryScores.push(gameState.memory.score);
+            dashboardData.currentCognitive.memory = memoryScores.length > 0 
+                ? Math.round(memoryScores.reduce((a,b) => a+b, 0) / memoryScores.length) : 0;
+            
+            dashboardData.currentCognitive.attention = gameState.yut.completed ? gameState.yut.score : 0;
+            dashboardData.currentCognitive.language = gameState.proverb.completed ? gameState.proverb.score : 0;
+            dashboardData.currentCognitive.calculation = gameState.calc.completed ? gameState.calc.score : 0;
+            dashboardData.currentCognitive.reasoning = gameState.sequence.completed ? gameState.sequence.score : 0;
+        }
+
+        function openDashboard() {
+            if (!gameState.playerName) {
+                showToast('먼저 이름을 입력해주세요!', 'error');
+                return;
+            }
+            
+            document.getElementById('heygen-pip').contentWindow.postMessage({ 
+                type: 'EXPLAIN_DASHBOARD',
+                cognitive: dashboardData.currentCognitive,
+                totalScore: gameState.totalScore,
+                completedGames: gameState.completedGames.length
+            }, '*');
+            
+            document.getElementById('modal-dashboard').classList.add('active');
+            renderDashboard();
+        }
+
+        function closeDashboard() {
+            document.getElementById('modal-dashboard').classList.remove('active');
+        }
+
+        function renderDashboard() {
+            updateCognitiveScores();
+            
+            const completedCount = gameState.completedGames.length;
+            const overallScore = completedCount > 0 
+                ? Math.round(gameState.totalScore / completedCount) : 0;
+            
+            document.getElementById('overallScoreCircle').style.setProperty('--score', overallScore);
+            document.getElementById('overallScoreValue').textContent = overallScore;
+            
+            // 점수 변화 표시
+            const scoreChangeEl = document.getElementById('scoreChange');
+            if (dashboardData.history.length > 0 && completedCount > 0) {
+                const lastRecord = dashboardData.history[dashboardData.history.length - 1];
+                const lastAvg = Math.round(lastRecord.total_score / 6);
+                const diff = overallScore - lastAvg;
+                
+                if (diff > 0) {
+                    scoreChangeEl.className = 'score-change up';
+                    scoreChangeEl.textContent = `▲ ${diff}점 향상`;
+                } else if (diff < 0) {
+                    scoreChangeEl.className = 'score-change down';
+                    scoreChangeEl.textContent = `▼ ${Math.abs(diff)}점 하락`;
+                } else {
+                    scoreChangeEl.className = 'score-change same';
+                    scoreChangeEl.textContent = '― 유지';
+                }
+            } else {
+                scoreChangeEl.className = 'score-change same';
+                scoreChangeEl.textContent = completedCount > 0 ? '― 첫 기록' : '― 게임을 시작하세요';
+            }
+            
+            // 인지 영역 바 차트
+            const cognitive = dashboardData.currentCognitive;
+            const areas = ['memory', 'attention', 'language', 'calculation', 'reasoning'];
+            const areaNames = { memory: '기억력', attention: '주의력', language: '언어력', calculation: '계산력', reasoning: '추론력' };
+            
+            let minArea = null, minScore = 101, hasAnyScore = false;
+            
+            areas.forEach(area => {
+                const score = cognitive[area];
+                const bar = document.getElementById(`bar-${area}`);
+                const pct = document.getElementById(`pct-${area}`);
+                const val = document.getElementById(`val-${area}`);
+                
+                bar.style.width = `${Math.max(score, score > 0 ? 15 : 0)}%`;
+                pct.textContent = `${score}%`;
+                val.textContent = score > 0 ? score : '';
+                
+                if (score > 0) {
+                    hasAnyScore = true;
+                    if (score < minScore) { minScore = score; minArea = area; }
+                }
+            });
+            
+            // 취약 영역 알림
+            const weakAlert = document.getElementById('weakAreaAlert');
+            if (hasAnyScore && minScore < 70 && minArea) {
+                weakAlert.style.display = 'block';
+                const gameRecommend = {
+                    memory: '화투 짝맞추기나 숫자 기억 게임',
+                    attention: '색상 패턴 기억 게임',
+                    language: '속담 완성하기 게임',
+                    calculation: '산수 계산 게임',
+                    reasoning: '순서 맞추기 게임'
+                };
+                document.getElementById('weakAreaText').textContent = 
+                    `${areaNames[minArea]} 영역이 ${minScore}%로 다소 낮습니다. ${gameRecommend[minArea]}을 더 연습해 보세요!`;
+            } else {
+                weakAlert.style.display = 'none';
+            }
+            
+            // 게임별 점수
+            document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed ? gameState.hwatu.score : '-';
+            document.getElementById('dash-yut').textContent = gameState.yut.completed ? gameState.yut.score : '-';
+            document.getElementById('dash-memory').textContent = gameState.memory.completed ? gameState.memory.score : '-';
+            document.getElementById('dash-proverb').textContent = gameState.proverb.completed ? gameState.proverb.score : '-';
+            document.getElementById('dash-calc').textContent = gameState.calc.completed ? gameState.calc.score : '-';
+            document.getElementById('dash-sequence').textContent = gameState.sequence.completed ? gameState.sequence.score : '-';
+            
+            renderTrendChart();
+            renderInsights();
+        }
+
+        function renderTrendChart() {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            
+            if (trendChart) trendChart.destroy();
+            
+            const labels = [];
+            const totalScores = [];
+            
+            dashboardData.history.forEach(record => {
+                labels.push(`${record.session_number}회차`);
+                totalScores.push(record.total_score);
+            });
+            
+            if (gameState.completedGames.length > 0) {
+                labels.push('현재');
+                totalScores.push(gameState.totalScore);
+            }
+            
+            if (labels.length === 0) {
+                labels.push('데이터 없음');
+                totalScores.push(0);
+            }
+            
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '총점',
+                        data: totalScores,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 600 }
+                    }
+                }
+            });
+        }
+
+        function renderInsights() {
+            const insightsList = document.getElementById('insightsList');
+            const insights = [];
+            const cognitive = dashboardData.currentCognitive;
+            const completedCount = gameState.completedGames.length;
+            
+            if (completedCount === 0) {
+                insightsList.innerHTML = `
+                    <div class="insight-item">
+                        <span class="icon">🎮</span>
+                        <span class="text">게임을 시작하면 인지 기능 분석 결과를 볼 수 있어요!</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 강점 분석
+            const scores = Object.entries(cognitive).filter(([k, v]) => v > 0);
+            if (scores.length > 0) {
+                const maxArea = scores.reduce((a, b) => a[1] > b[1] ? a : b);
+                const areaNames = { memory: '기억력', attention: '주의력', language: '언어력', calculation: '계산력', reasoning: '추론력' };
+                
+                if (maxArea[1] >= 80) {
+                    insights.push({ icon: '💪', text: `${areaNames[maxArea[0]]} 영역이 ${maxArea[1]}%로 매우 우수합니다! 꾸준히 유지하세요.` });
+                }
+            }
+            
+            // 히스토리 기반 분석
+            if (dashboardData.history.length >= 2) {
+                const recent = dashboardData.history.slice(-3);
+                const avgRecent = recent.reduce((a, b) => a + b.total_score, 0) / recent.length;
+                const avgAll = dashboardData.history.reduce((a, b) => a + b.total_score, 0) / dashboardData.history.length;
+                
+                if (avgRecent > avgAll * 1.1) {
+                    insights.push({ icon: '📈', text: `최근 성적이 평균보다 ${Math.round((avgRecent/avgAll - 1) * 100)}% 향상되었어요!` });
+                }
+            }
+            
+            if (dashboardData.history.length >= 5) {
+                insights.push({ icon: '🏅', text: `벌써 ${dashboardData.history.length}회나 플레이하셨네요! 꾸준함이 최고의 두뇌 운동입니다.` });
+            }
+            
+            if (completedCount === 6) {
+                insights.push({ icon: '🎉', text: '오늘 모든 게임을 완료했습니다! 기록을 저장하세요.' });
+            } else if (completedCount >= 3) {
+                insights.push({ icon: '👏', text: `${completedCount}개 게임 완료! ${6 - completedCount}개만 더 하면 오늘 훈련 완료예요.` });
+            }
+            
+            if (insights.length === 0) {
+                insights.push({ icon: '💡', text: '게임을 더 진행하면 상세한 분석을 받아볼 수 있어요.' });
+            }
+            
+            insightsList.innerHTML = insights.map(insight => `
+                <div class="insight-item">
+                    <span class="icon">${insight.icon}</span>
+                    <span class="text">${insight.text}</span>
+                </div>
+            `).join('');
+        }
+
         // 점수 업데이트
         function updateScoreboard() {
             document.getElementById('totalScore').textContent = gameState.totalScore;
@@ -1820,6 +2477,9 @@
             if (gameState.completedGames.length === 6) {
                 document.getElementById('saveBtn').disabled = false;
             }
+            
+            // 🆕 인지 영역 점수 업데이트
+            updateCognitiveScores();
         }
 
         // 기록 저장
