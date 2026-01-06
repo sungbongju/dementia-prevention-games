@@ -2248,50 +2248,50 @@
             // 기억력: 화투 + 숫자기억 평균
             const memoryScores = [];
             if (gameState.hwatu.completed) {
-                memoryScores.push(gameState.hwatu.score);
-            } else if (lastRecord && lastRecord.hwatu_score > 0) {
-                memoryScores.push(lastRecord.hwatu_score);
+                memoryScores.push(Number(gameState.hwatu.score));
+            } else if (lastRecord && Number(lastRecord.hwatu_score) > 0) {
+                memoryScores.push(Number(lastRecord.hwatu_score));
             }
             if (gameState.memory.completed) {
-                memoryScores.push(gameState.memory.score);
-            } else if (lastRecord && lastRecord.memory_score > 0) {
-                memoryScores.push(lastRecord.memory_score);
+                memoryScores.push(Number(gameState.memory.score));
+            } else if (lastRecord && Number(lastRecord.memory_score) > 0) {
+                memoryScores.push(Number(lastRecord.memory_score));
             }
             dashboardData.currentCognitive.memory = memoryScores.length > 0 
                 ? Math.round(memoryScores.reduce((a,b) => a+b, 0) / memoryScores.length) : 0;
             
             // 주의력: 색상 패턴
             if (gameState.yut.completed) {
-                dashboardData.currentCognitive.attention = gameState.yut.score;
-            } else if (lastRecord && lastRecord.pattern_score > 0) {
-                dashboardData.currentCognitive.attention = lastRecord.pattern_score;
+                dashboardData.currentCognitive.attention = Number(gameState.yut.score);
+            } else if (lastRecord && Number(lastRecord.pattern_score) > 0) {
+                dashboardData.currentCognitive.attention = Number(lastRecord.pattern_score);
             } else {
                 dashboardData.currentCognitive.attention = 0;
             }
             
             // 언어력: 속담
             if (gameState.proverb.completed) {
-                dashboardData.currentCognitive.language = gameState.proverb.score;
-            } else if (lastRecord && lastRecord.proverb_score > 0) {
-                dashboardData.currentCognitive.language = lastRecord.proverb_score;
+                dashboardData.currentCognitive.language = Number(gameState.proverb.score);
+            } else if (lastRecord && Number(lastRecord.proverb_score) > 0) {
+                dashboardData.currentCognitive.language = Number(lastRecord.proverb_score);
             } else {
                 dashboardData.currentCognitive.language = 0;
             }
             
             // 계산력: 산수
             if (gameState.calc.completed) {
-                dashboardData.currentCognitive.calculation = gameState.calc.score;
-            } else if (lastRecord && lastRecord.calc_score > 0) {
-                dashboardData.currentCognitive.calculation = lastRecord.calc_score;
+                dashboardData.currentCognitive.calculation = Number(gameState.calc.score);
+            } else if (lastRecord && Number(lastRecord.calc_score) > 0) {
+                dashboardData.currentCognitive.calculation = Number(lastRecord.calc_score);
             } else {
                 dashboardData.currentCognitive.calculation = 0;
             }
             
             // 추론력: 순서맞추기
             if (gameState.sequence.completed) {
-                dashboardData.currentCognitive.reasoning = gameState.sequence.score;
-            } else if (lastRecord && lastRecord.sequence_score > 0) {
-                dashboardData.currentCognitive.reasoning = lastRecord.sequence_score;
+                dashboardData.currentCognitive.reasoning = Number(gameState.sequence.score);
+            } else if (lastRecord && Number(lastRecord.sequence_score) > 0) {
+                dashboardData.currentCognitive.reasoning = Number(lastRecord.sequence_score);
             } else {
                 dashboardData.currentCognitive.reasoning = 0;
             }
