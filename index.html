@@ -2239,62 +2239,71 @@
         }
 
         function updateCognitiveScores() {
-            // 현재 세션에서 완료한 게임이 있으면 현재 점수 사용
-            // 없으면 DB에서 가져온 가장 최근 기록 사용
-            const lastRecord = dashboardData.history.length > 0 
-                ? dashboardData.history[dashboardData.history.length - 1] 
-                : null;
+            // 전체 회차 평균으로 계산
+            const history = dashboardData.history;
             
-            // 기억력: 화투 + 숫자기억 평균
+            if (history.length === 0 && gameState.completedGames.length === 0) {
+                // 기록이 없으면 모두 0
+                dashboardData.currentCognitive = {
+                    memory: 0, attention: 0, language: 0, calculation: 0, reasoning: 0
+                };
+                return;
+            }
+            
+            // 각 영역별 점수 배열 (회차별로 수집)
             const memoryScores = [];
-            if (gameState.hwatu.completed) {
-                memoryScores.push(Number(gameState.hwatu.score));
-            } else if (lastRecord && Number(lastRecord.hwatu_score) > 0) {
-                memoryScores.push(Number(lastRecord.hwatu_score));
-            }
-            if (gameState.memory.completed) {
-                memoryScores.push(Number(gameState.memory.score));
-            } else if (lastRecord && Number(lastRecord.memory_score) > 0) {
-                memoryScores.push(Number(lastRecord.memory_score));
-            }
-            dashboardData.currentCognitive.memory = memoryScores.length > 0 
-                ? Math.round(memoryScores.reduce((a,b) => a+b, 0) / memoryScores.length) : 0;
+            const attentionScores = [];
+            const languageScores = [];
+            const calculationScores = [];
+            const reasoningScores = [];
             
-            // 주의력: 색상 패턴
-            if (gameState.yut.completed) {
-                dashboardData.currentCognitive.attention = Number(gameState.yut.score);
-            } else if (lastRecord && Number(lastRecord.pattern_score) > 0) {
-                dashboardData.currentCognitive.attention = Number(lastRecord.pattern_score);
-            } else {
-                dashboardData.currentCognitive.attention = 0;
+            // DB 히스토리에서 수집 (각 회차별)
+            history.forEach(record => {
+                const hwatu = Number(record.hwatu_score) || 0;
+                const memory = Number(record.memory_score) || 0;
+                const pattern = Number(record.pattern_score) || 0;
+                const proverb = Number(record.proverb_score) || 0;
+                const calc = Number(record.calc_score) || 0;
+                const sequence = Number(record.sequence_score) || 0;
+                
+                // 기억력: 해당 회차의 (화투 + 숫자기억) / 2
+                memoryScores.push((hwatu + memory) / 2);
+                attentionScores.push(pattern);
+                languageScores.push(proverb);
+                calculationScores.push(calc);
+                reasoningScores.push(sequence);
+            });
+            
+            // 현재 세션도 포함 (6개 모두 완료 안 해도 완료한 것들은 포함)
+            if (gameState.completedGames.length > 0) {
+                const hwatu = gameState.hwatu.completed ? Number(gameState.hwatu.score) : null;
+                const memory = gameState.memory.completed ? Number(gameState.memory.score) : null;
+                const pattern = gameState.yut.completed ? Number(gameState.yut.score) : null;
+                const proverb = gameState.proverb.completed ? Number(gameState.proverb.score) : null;
+                const calc = gameState.calc.completed ? Number(gameState.calc.score) : null;
+                const sequence = gameState.sequence.completed ? Number(gameState.sequence.score) : null;
+                
+                // 기억력 게임 중 하나라도 완료했으면 추가
+                if (hwatu !== null || memory !== null) {
+                    const h = hwatu !== null ? hwatu : 0;
+                    const m = memory !== null ? memory : 0;
+                    const cnt = (hwatu !== null ? 1 : 0) + (memory !== null ? 1 : 0);
+                    memoryScores.push((h + m) / cnt);
+                }
+                if (pattern !== null) attentionScores.push(pattern);
+                if (proverb !== null) languageScores.push(proverb);
+                if (calc !== null) calculationScores.push(calc);
+                if (sequence !== null) reasoningScores.push(sequence);
             }
             
-            // 언어력: 속담
-            if (gameState.proverb.completed) {
-                dashboardData.currentCognitive.language = Number(gameState.proverb.score);
-            } else if (lastRecord && Number(lastRecord.proverb_score) > 0) {
-                dashboardData.currentCognitive.language = Number(lastRecord.proverb_score);
-            } else {
-                dashboardData.currentCognitive.language = 0;
-            }
+            // 전체 평균 계산
+            const avg = arr => arr.length > 0 ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : 0;
             
-            // 계산력: 산수
-            if (gameState.calc.completed) {
-                dashboardData.currentCognitive.calculation = Number(gameState.calc.score);
-            } else if (lastRecord && Number(lastRecord.calc_score) > 0) {
-                dashboardData.currentCognitive.calculation = Number(lastRecord.calc_score);
-            } else {
-                dashboardData.currentCognitive.calculation = 0;
-            }
-            
-            // 추론력: 순서맞추기
-            if (gameState.sequence.completed) {
-                dashboardData.currentCognitive.reasoning = Number(gameState.sequence.score);
-            } else if (lastRecord && Number(lastRecord.sequence_score) > 0) {
-                dashboardData.currentCognitive.reasoning = Number(lastRecord.sequence_score);
-            } else {
-                dashboardData.currentCognitive.reasoning = 0;
-            }
+            dashboardData.currentCognitive.memory = avg(memoryScores);
+            dashboardData.currentCognitive.attention = avg(attentionScores);
+            dashboardData.currentCognitive.language = avg(languageScores);
+            dashboardData.currentCognitive.calculation = avg(calculationScores);
+            dashboardData.currentCognitive.reasoning = avg(reasoningScores);
         }
 
         function openDashboard() {
@@ -2321,58 +2330,51 @@
         function renderDashboard() {
             updateCognitiveScores();
             
-            const lastRecord = dashboardData.history.length > 0 
-                ? dashboardData.history[dashboardData.history.length - 1] 
-                : null;
-            
-            // 현재 세션 게임 완료 여부
+            const history = dashboardData.history;
             const completedCount = gameState.completedGames.length;
             
-            // 종합 점수: 현재 세션 점수가 있으면 사용, 없으면 DB 최근 기록
+            // 종합 점수: 전체 회차 평균
             let overallScore = 0;
-            if (completedCount > 0) {
+            let totalAllScores = 0;
+            let count = history.length;
+            
+            // DB 히스토리 합산
+            history.forEach(record => {
+                totalAllScores += Number(record.total_score) || 0;
+            });
+            
+            // 현재 세션 6개 모두 완료시 포함
+            if (completedCount === 6) {
+                totalAllScores += gameState.totalScore;
+                count += 1;
+            }
+            
+            if (count > 0) {
+                overallScore = Math.round((totalAllScores / count) / 6); // 600점 만점 → 100점 만점으로 환산
+            } else if (completedCount > 0) {
                 overallScore = Math.round(gameState.totalScore / completedCount);
-            } else if (lastRecord) {
-                overallScore = Math.round(lastRecord.total_score / 6);
             }
             
             document.getElementById('overallScoreCircle').style.setProperty('--score', overallScore);
             document.getElementById('overallScoreValue').textContent = overallScore;
             
-            // 점수 변화 표시
+            // 점수 변화 표시 (최근 기록 vs 전체 평균)
             const scoreChangeEl = document.getElementById('scoreChange');
-            if (dashboardData.history.length > 1 && completedCount === 0) {
-                // 현재 세션 미시작 - 이전 기록과 비교
-                const prevRecord = dashboardData.history[dashboardData.history.length - 2];
-                const diff = Math.round(lastRecord.total_score / 6) - Math.round(prevRecord.total_score / 6);
+            if (history.length > 0) {
+                const lastRecord = history[history.length - 1];
+                const lastAvg = Math.round(Number(lastRecord.total_score) / 6);
+                const diff = lastAvg - overallScore;
                 
                 if (diff > 0) {
                     scoreChangeEl.className = 'score-change up';
-                    scoreChangeEl.textContent = `▲ ${diff}점 향상 (지난 기록)`;
+                    scoreChangeEl.textContent = `최근 기록이 평균보다 ${diff}점 높음`;
                 } else if (diff < 0) {
                     scoreChangeEl.className = 'score-change down';
-                    scoreChangeEl.textContent = `▼ ${Math.abs(diff)}점 하락 (지난 기록)`;
+                    scoreChangeEl.textContent = `최근 기록이 평균보다 ${Math.abs(diff)}점 낮음`;
                 } else {
                     scoreChangeEl.className = 'score-change same';
-                    scoreChangeEl.textContent = '― 유지 (지난 기록)';
+                    scoreChangeEl.textContent = `평균과 동일`;
                 }
-            } else if (dashboardData.history.length > 0 && completedCount > 0) {
-                const lastAvg = Math.round(lastRecord.total_score / 6);
-                const diff = overallScore - lastAvg;
-                
-                if (diff > 0) {
-                    scoreChangeEl.className = 'score-change up';
-                    scoreChangeEl.textContent = `▲ ${diff}점 향상`;
-                } else if (diff < 0) {
-                    scoreChangeEl.className = 'score-change down';
-                    scoreChangeEl.textContent = `▼ ${Math.abs(diff)}점 하락`;
-                } else {
-                    scoreChangeEl.className = 'score-change same';
-                    scoreChangeEl.textContent = '― 유지';
-                }
-            } else if (lastRecord) {
-                scoreChangeEl.className = 'score-change same';
-                scoreChangeEl.textContent = '― 최근 기록 기준';
             } else {
                 scoreChangeEl.className = 'score-change same';
                 scoreChangeEl.textContent = completedCount > 0 ? '― 첫 기록' : '― 게임을 시작하세요';
@@ -2418,19 +2420,41 @@
                 weakAlert.style.display = 'none';
             }
             
-            // 게임별 점수 - 현재 세션 또는 DB 최근 기록
+            // 게임별 점수 - 전체 회차 평균
+            const avgScores = {
+                hwatu: 0, pattern: 0, memory: 0, proverb: 0, calc: 0, sequence: 0
+            };
+            
+            if (history.length > 0) {
+                history.forEach(record => {
+                    avgScores.hwatu += Number(record.hwatu_score) || 0;
+                    avgScores.pattern += Number(record.pattern_score) || 0;
+                    avgScores.memory += Number(record.memory_score) || 0;
+                    avgScores.proverb += Number(record.proverb_score) || 0;
+                    avgScores.calc += Number(record.calc_score) || 0;
+                    avgScores.sequence += Number(record.sequence_score) || 0;
+                });
+                
+                avgScores.hwatu = Math.round(avgScores.hwatu / history.length);
+                avgScores.pattern = Math.round(avgScores.pattern / history.length);
+                avgScores.memory = Math.round(avgScores.memory / history.length);
+                avgScores.proverb = Math.round(avgScores.proverb / history.length);
+                avgScores.calc = Math.round(avgScores.calc / history.length);
+                avgScores.sequence = Math.round(avgScores.sequence / history.length);
+            }
+            
             document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed 
-                ? gameState.hwatu.score : (lastRecord ? lastRecord.hwatu_score : '-');
+                ? gameState.hwatu.score : (avgScores.hwatu > 0 ? avgScores.hwatu : '-');
             document.getElementById('dash-yut').textContent = gameState.yut.completed 
-                ? gameState.yut.score : (lastRecord ? lastRecord.pattern_score : '-');
+                ? gameState.yut.score : (avgScores.pattern > 0 ? avgScores.pattern : '-');
             document.getElementById('dash-memory').textContent = gameState.memory.completed 
-                ? gameState.memory.score : (lastRecord ? lastRecord.memory_score : '-');
+                ? gameState.memory.score : (avgScores.memory > 0 ? avgScores.memory : '-');
             document.getElementById('dash-proverb').textContent = gameState.proverb.completed 
-                ? gameState.proverb.score : (lastRecord ? lastRecord.proverb_score : '-');
+                ? gameState.proverb.score : (avgScores.proverb > 0 ? avgScores.proverb : '-');
             document.getElementById('dash-calc').textContent = gameState.calc.completed 
-                ? gameState.calc.score : (lastRecord ? lastRecord.calc_score : '-');
+                ? gameState.calc.score : (avgScores.calc > 0 ? avgScores.calc : '-');
             document.getElementById('dash-sequence').textContent = gameState.sequence.completed 
-                ? gameState.sequence.score : (lastRecord ? lastRecord.sequence_score : '-');
+                ? gameState.sequence.score : (avgScores.sequence > 0 ? avgScores.sequence : '-');
             
             renderTrendChart();
             renderInsights();
