@@ -2880,10 +2880,13 @@
                 return;
             }
             if (gameState[gameType].completed) return;
-                // 🆕 아바타에게 게임 설명 요청
+            
+            // 🆕 아바타에게 게임 설명 요청
+            // route.ts의 GAME_INFO 키와 맞추기 위해 yut → pattern 변환
+            const gameKeyForAPI = gameType === 'yut' ? 'pattern' : gameType;
             document.getElementById('heygen-pip').contentWindow.postMessage({ 
                 type: 'EXPLAIN_GAME',
-                game: gameType
+                game: gameKeyForAPI
             }, '*');
             document.getElementById(`modal-${gameType}`).classList.add('active');
             initGame(gameType);
