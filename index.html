@@ -3062,6 +3062,27 @@
             document.getElementById('hwatu-progress').style.width = `${(hwatuState.matched / 6) * 100}%`;
         }
 
+        // 🆕 게임 완료 시 아바타에게 격려 메시지 요청
+        function sendGameCompleteToAvatar(game, gameName, score, maxScore) {
+            const pipIframe = document.getElementById('heygen-pip');
+            if (pipIframe && pipIframe.contentWindow) {
+                // completedGames 배열에 현재 게임이 아직 추가 안 됐으므로 +1
+                const completedCount = gameState.completedGames.length + 1;
+                
+                pipIframe.contentWindow.postMessage({
+                    type: 'GAME_COMPLETE',
+                    game: game,
+                    gameName: gameName,
+                    score: score,
+                    maxScore: maxScore,
+                    playerName: gameState.playerName,
+                    completedCount: completedCount,
+                    totalGames: 6
+                }, '*');
+                console.log('📤 GAME_COMPLETE 전송:', { game, gameName, score, completedCount });
+            }
+        }
+
         function endHwatu() {
             const score = Math.max(100 - (hwatuState.tries - 6) * 5, 50);
             gameState.hwatu.score = score;
@@ -3070,6 +3091,9 @@
             
             document.getElementById('hwatu-score').textContent = score;
             document.getElementById('hwatu-result').style.display = 'block';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('hwatu', '화투 짝맞추기', score, 100);
         }
 
         // ============================================
@@ -3247,6 +3271,9 @@
             
             document.getElementById('yut-score').textContent = score;
             document.getElementById('yut-result').style.display = 'block';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('yut', '색상 패턴 기억', score, 100);
         }
 
         // ============================================
@@ -3337,6 +3364,9 @@
             document.getElementById('memory-score').textContent = score;
             document.getElementById('memory-result').style.display = 'block';
             document.getElementById('memory-input').style.display = 'none';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('memory', '숫자 기억하기', score, 100);
         }
 
         // ============================================
@@ -3423,6 +3453,9 @@
             
             document.getElementById('proverb-score').textContent = score;
             document.getElementById('proverb-result').style.display = 'block';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('proverb', '속담 완성하기', score, 100);
         }
 
         // ============================================
@@ -3503,6 +3536,9 @@
             
             document.getElementById('calc-score').textContent = score;
             document.getElementById('calc-result').style.display = 'block';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('calc', '산수 계산', score, 100);
         }
 
         // ============================================
@@ -3623,6 +3659,9 @@
             
             document.getElementById('sequence-score').textContent = score;
             document.getElementById('sequence-result').style.display = 'block';
+            
+            // 🆕 아바타에게 격려 메시지 요청
+            sendGameCompleteToAvatar('sequence', '순서 맞추기', score, 100);
         }
 
         // 엔터키 지원
