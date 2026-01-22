@@ -3856,6 +3856,12 @@
     function handleVoiceCommand(action, game) {
         console.log('[🎯 Handling Voice Command]', action);
         
+        // 🔒 이름 입력 안 했으면 게임/UI 명령 차단
+        if (!gameState.playerName && action !== 'CLOSE_MODAL') {
+            console.warn('[⚠️ Voice Command Blocked] 이름 미입력');
+            return;
+        }
+        
         switch (action) {
             // 게임 시작 명령
             case 'START_GAME_HWATU':    openGame('hwatu'); break;
@@ -3865,12 +3871,12 @@
             case 'START_GAME_CALC':     openGame('calc'); break;
             case 'START_GAME_SEQUENCE': openGame('sequence'); break;
             
-            // UI 제어 명령
-            case 'SHOW_MY_RECORDS':     openMyRecords(); break;
-            case 'SHOW_DASHBOARD':      openDashboard(); break;
-            case 'SHOW_RANKING':        openRanking(); break;
-            case 'CLOSE_MODAL':         closeAllModals(); break;
-            case 'SAVE_SCORE':          saveToServer(); break;
+            // UI 제어 명령 (🔧 함수명 수정됨!)
+            case 'SHOW_MY_RECORDS':     showRecordsModal(); break;   // ← 수정: openMyRecords → showRecordsModal
+            case 'SHOW_DASHBOARD':      openDashboard(); break;      // ← OK (기존과 동일)
+            case 'SHOW_RANKING':        showRankingModal(); break;   // ← 수정: openRanking → showRankingModal
+            case 'CLOSE_MODAL':         closeAllModals(); break;     // ← OK (기존과 동일)
+            case 'SAVE_SCORE':          saveRecord(); break;         // ← 수정: saveToServer → saveRecord
             
             default:
                 console.warn('[⚠️ Unknown Voice Command]', action);
