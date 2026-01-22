@@ -3840,6 +3840,49 @@
       const container = document.getElementById('heygen-pip-container');
       container.classList.contains('hidden') ? showPIP() : closePIP();
     }
+    
+    // ============================================
+    // 🎤 음성 명령 수신 핸들러 (NEW!)
+    // ============================================
+    window.addEventListener('message', function(event) {
+        const { type, action, game } = event.data || {};
+        
+        if (type === 'VOICE_COMMAND') {
+            console.log('[🎤 Voice Command Received]', action, game);
+            handleVoiceCommand(action, game);
+        }
+    });
+
+    function handleVoiceCommand(action, game) {
+        console.log('[🎯 Handling Voice Command]', action);
+        
+        switch (action) {
+            // 게임 시작 명령
+            case 'START_GAME_HWATU':    openGame('hwatu'); break;
+            case 'START_GAME_PATTERN':  openGame('yut'); break;
+            case 'START_GAME_MEMORY':   openGame('memory'); break;
+            case 'START_GAME_PROVERB':  openGame('proverb'); break;
+            case 'START_GAME_CALC':     openGame('calc'); break;
+            case 'START_GAME_SEQUENCE': openGame('sequence'); break;
+            
+            // UI 제어 명령
+            case 'SHOW_MY_RECORDS':     openMyRecords(); break;
+            case 'SHOW_DASHBOARD':      openDashboard(); break;
+            case 'SHOW_RANKING':        openRanking(); break;
+            case 'CLOSE_MODAL':         closeAllModals(); break;
+            case 'SAVE_SCORE':          saveToServer(); break;
+            
+            default:
+                console.warn('[⚠️ Unknown Voice Command]', action);
+        }
+    }
+
+    function closeAllModals() {
+        console.log('[🔲 Closing all modals]');
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.classList.remove('active');
+        });
+    }
     </script>
 </body>
 </html>
