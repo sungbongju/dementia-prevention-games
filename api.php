@@ -43,23 +43,23 @@ switch ($action) {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        $hwatu = isset($data['stroop_score']) ? intval($data['stroop_score']) : 0;
-        $pattern = isset($data['gonogo_score']) ? intval($data['gonogo_score']) : 0;
-        $memory = isset($data['nback_score']) ? intval($data['nback_score']) : 0;
-        $proverb = isset($data['pal_score']) ? intval($data['pal_score']) : 0;
-        $calc = isset($data['ufov_score']) ? intval($data['ufov_score']) : 0;
-        $sequence = isset($data['trail_score']) ? intval($data['trail_score']) : 0;
-        $total = $hwatu + $pattern + $memory + $proverb + $calc + $sequence;
+        $stroop = isset($data['stroop_score']) ? intval($data['stroop_score']) : 0;
+        $gonogo = isset($data['gonogo_score']) ? intval($data['gonogo_score']) : 0;
+        $nback = isset($data['nback_score']) ? intval($data['nback_score']) : 0;
+        $pal = isset($data['pal_score']) ? intval($data['pal_score']) : 0;
+        $ufov = isset($data['ufov_score']) ? intval($data['ufov_score']) : 0;
+        $trail = isset($data['trail_score']) ? intval($data['trail_score']) : 0;
+        $total = $stroop + $gonogo + $nback + $pal + $ufov + $trail;
         
         $stmt->execute(array(
             $playerName,
             $sessionNumber,
-            $hwatu,
-            $pattern,
-            $memory,
-            $proverb,
-            $calc,
-            $sequence,
+            $stroop,
+            $gonogo,
+            $nback,
+            $pal,
+            $ufov,
+            $trail,
             $total
         ));
         
