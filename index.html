@@ -347,12 +347,12 @@
             animation: shimmer 3s infinite;
         }
 
-        .game-icon.hwatu { background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); }
-        .game-icon.yut { background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); }
+        .game-icon.stroop { background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); }
+        .game-icon.gonogo { background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); }
         .game-icon.memory { background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); }
-        .game-icon.proverb { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); }
-        .game-icon.calc { background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%); }
-        .game-icon.sequence { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
+        .game-icon.pal { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); }
+        .game-icon.ufov { background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%); }
+        .game-icon.trail { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
 
         .game-info { padding: 25px; }
 
@@ -1670,8 +1670,8 @@
         </div>
 
         <div class="game-grid" id="gameGrid">
-            <div class="game-card disabled" id="card-hwatu" onclick="openGame('hwatu')">
-                <div class="game-icon hwatu">🎨</div>
+            <div class="game-card disabled" id="card-hwatu" onclick="openGame('stroop')">
+                <div class="game-icon stroop">🎨</div>
                 <div class="game-info">
                     <h3 class="game-title">글자 색깔 고르기</h3>
                     <p class="game-desc">글자가 무슨 색으로 쓰여 있는지 골라주세요. <strong>선택적 주의력 훈련</strong></p>
@@ -1681,8 +1681,8 @@
                     </div>
                 </div>
             </div>
-            <div class="game-card disabled" id="card-yut" onclick="openGame('yut')">
-                <div class="game-icon yut"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="22" stroke="white" stroke-width="2.5" fill="none"/><circle cx="32" cy="32" r="14" stroke="white" stroke-width="2" fill="rgba(255,255,255,0.15)"/><path d="M32 18 V32 L42 38" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 50 L16 56" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M44 50 L48 56" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="game-card disabled" id="card-yut" onclick="openGame('gonogo')">
+                <div class="game-icon gonogo"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="22" stroke="white" stroke-width="2.5" fill="none"/><circle cx="32" cy="32" r="14" stroke="white" stroke-width="2" fill="rgba(255,255,255,0.15)"/><path d="M32 18 V32 L42 38" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 50 L16 56" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M44 50 L48 56" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
                 <div class="game-info">
                     <h3 class="game-title">눌러라 참아라</h3>
                     <p class="game-desc">초록 동그라미가 나오면 누르고, 빨간색이면 참으세요. <strong>억제 통제력 훈련</strong></p>
@@ -1692,7 +1692,7 @@
                     </div>
                 </div>
             </div>
-            <div class="game-card disabled" id="card-memory" onclick="openGame('memory')">
+            <div class="game-card disabled" id="card-memory" onclick="openGame('nback')">
                 <div class="game-icon memory"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="18" width="18" height="24" rx="4" stroke="white" stroke-width="2.5" fill="none"/><text x="19" y="35" text-anchor="middle" font-size="16" font-weight="800" fill="white">3</text><rect x="36" y="18" width="18" height="24" rx="4" stroke="white" stroke-width="2.5" fill="none"/><text x="45" y="35" text-anchor="middle" font-size="16" font-weight="800" fill="white">?</text><path d="M22 46 L26 50 L22 54" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6"/><path d="M38 46 L42 50 L38 54" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6"/></svg></div>
                 <div class="game-info">
                     <h3 class="game-title">앞의 숫자 맞추기</h3>
@@ -1703,8 +1703,8 @@
                     </div>
                 </div>
             </div>
-            <div class="game-card disabled" id="card-proverb" onclick="openGame('proverb')">
-                <div class="game-icon proverb"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="14" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="36" y="14" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="12" y="38" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="36" y="38" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/><text x="20" y="25" text-anchor="middle" font-size="11" fill="white">★</text><text x="44" y="25" text-anchor="middle" font-size="11" fill="white">●</text><text x="20" y="49" text-anchor="middle" font-size="11" fill="white">▲</text><text x="44" y="49" text-anchor="middle" font-size="11" fill="white" opacity="0.5">?</text></svg></div>
+            <div class="game-card disabled" id="card-proverb" onclick="openGame('pal')">
+                <div class="game-icon pal"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="14" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="36" y="14" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="12" y="38" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><rect x="36" y="38" width="16" height="16" rx="3" stroke="white" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/><text x="20" y="25" text-anchor="middle" font-size="11" fill="white">★</text><text x="44" y="25" text-anchor="middle" font-size="11" fill="white">●</text><text x="20" y="49" text-anchor="middle" font-size="11" fill="white">▲</text><text x="44" y="49" text-anchor="middle" font-size="11" fill="white" opacity="0.5">?</text></svg></div>
                 <div class="game-info">
                     <h3 class="game-title">그림 자리 찾기</h3>
                     <p class="game-desc">어떤 그림이 어디에 있었는지 기억해보세요. <strong>시공간 기억 훈련</strong></p>
@@ -1714,8 +1714,8 @@
                     </div>
                 </div>
             </div>
-            <div class="game-card disabled" id="card-calc" onclick="openGame('calc')">
-                <div class="game-icon calc"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="32" cy="32" rx="24" ry="14" stroke="white" stroke-width="2.5" fill="none"/><circle cx="32" cy="32" r="8" stroke="white" stroke-width="2" fill="rgba(255,255,255,0.2)"/><circle cx="32" cy="32" r="3.5" fill="white"/><path d="M14 20 L12 16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M50 20 L52 16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M32 16 L32 12" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M14 44 L12 48" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M50 44 L52 48" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg></div>
+            <div class="game-card disabled" id="card-calc" onclick="openGame('ufov')">
+                <div class="game-icon ufov"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="32" cy="32" rx="24" ry="14" stroke="white" stroke-width="2.5" fill="none"/><circle cx="32" cy="32" r="8" stroke="white" stroke-width="2" fill="rgba(255,255,255,0.2)"/><circle cx="32" cy="32" r="3.5" fill="white"/><path d="M14 20 L12 16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M50 20 L52 16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M32 16 L32 12" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M14 44 L12 48" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M50 44 L52 48" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg></div>
                 <div class="game-info">
                     <h3 class="game-title">순간 포착 게임</h3>
                     <p class="game-desc">화면에 잠깐 나타나는 그림을 알아맞춰보세요. <strong>처리 속도 훈련</strong></p>
@@ -1725,8 +1725,8 @@
                     </div>
                 </div>
             </div>
-            <div class="game-card disabled" id="card-sequence" onclick="openGame('sequence')">
-                <div class="game-icon sequence"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="16" y="24" text-anchor="middle" font-size="10" font-weight="700" fill="white">1</text><circle cx="44" cy="16" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="44" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="white">2</text><circle cx="28" cy="44" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="28" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="white">3</text><circle cx="52" cy="44" r="7" stroke="white" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/><text x="52" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="white" opacity="0.5">4</text><line x1="22" y1="23" x2="38" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="42" y1="23" x2="31" y2="38" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="34" y1="46" x2="45" y2="45" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3" opacity="0.5"/></svg></div>
+            <div class="game-card disabled" id="card-sequence" onclick="openGame('trail')">
+                <div class="game-icon trail"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="16" y="24" text-anchor="middle" font-size="10" font-weight="700" fill="white">1</text><circle cx="44" cy="16" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="44" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="white">2</text><circle cx="28" cy="44" r="7" stroke="white" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/><text x="28" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="white">3</text><circle cx="52" cy="44" r="7" stroke="white" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/><text x="52" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="white" opacity="0.5">4</text><line x1="22" y1="23" x2="38" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="42" y1="23" x2="31" y2="38" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="34" y1="46" x2="45" y2="45" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3" opacity="0.5"/></svg></div>
                 <div class="game-info">
                     <h3 class="game-title">번호 순서대로 잇기</h3>
                     <p class="game-desc">1번부터 차례대로 동그라미를 눌러주세요. <strong>실행 기능 훈련</strong></p>
@@ -1805,12 +1805,12 @@
                     <div class="dashboard-card full-width">
                         <h3>🎮 게임별 점수</h3>
                         <div class="game-scores-grid">
-                            <div class="game-score-item"><div class="icon">🎨</div><div class="name">글자 색깔 고르기</div><div class="score" id="dash-hwatu">-</div><span class="cognitive-tag language">선택적 주의력</span></div>
-                            <div class="game-score-item"><div class="icon">🖐️</div><div class="name">눌러라 참아라</div><div class="score" id="dash-yut">-</div><span class="cognitive-tag attention">억제 통제력</span></div>
-                            <div class="game-score-item"><div class="icon">🔢</div><div class="name">앞의 숫자 맞추기</div><div class="score" id="dash-memory">-</div><span class="cognitive-tag memory">작업기억</span></div>
-                            <div class="game-score-item"><div class="icon">🧩</div><div class="name">그림 자리 찾기</div><div class="score" id="dash-proverb">-</div><span class="cognitive-tag calculation">시공간 기억</span></div>
-                            <div class="game-score-item"><div class="icon">👁️</div><div class="name">순간 포착 게임</div><div class="score" id="dash-calc">-</div><span class="cognitive-tag language">처리 속도</span></div>
-                            <div class="game-score-item"><div class="icon">🔗</div><div class="name">번호 순서대로 잇기</div><div class="score" id="dash-sequence">-</div><span class="cognitive-tag reasoning">실행 기능</span></div>
+                            <div class="game-score-item"><div class="icon">🎨</div><div class="name">글자 색깔 고르기</div><div class="score" id="dash-stroop">-</div><span class="cognitive-tag language">선택적 주의력</span></div>
+                            <div class="game-score-item"><div class="icon">🖐️</div><div class="name">눌러라 참아라</div><div class="score" id="dash-gonogo">-</div><span class="cognitive-tag attention">억제 통제력</span></div>
+                            <div class="game-score-item"><div class="icon">🔢</div><div class="name">앞의 숫자 맞추기</div><div class="score" id="dash-nback">-</div><span class="cognitive-tag memory">작업기억</span></div>
+                            <div class="game-score-item"><div class="icon">🧩</div><div class="name">그림 자리 찾기</div><div class="score" id="dash-pal">-</div><span class="cognitive-tag calculation">시공간 기억</span></div>
+                            <div class="game-score-item"><div class="icon">👁️</div><div class="name">순간 포착 게임</div><div class="score" id="dash-ufov">-</div><span class="cognitive-tag language">처리 속도</span></div>
+                            <div class="game-score-item"><div class="icon">🔗</div><div class="name">번호 순서대로 잇기</div><div class="score" id="dash-trail">-</div><span class="cognitive-tag reasoning">실행 기능</span></div>
                         </div>
                     </div>
                     <div class="dashboard-card full-width">
@@ -1825,11 +1825,11 @@
     </div>
 
     <!-- Stroop Modal -->
-    <div class="modal" id="modal-hwatu">
+    <div class="modal" id="modal-stroop">
         <div class="modal-content">
             <div class="modal-header stroop">
                 <h2 class="modal-title">🎨 글자 색깔 고르기</h2>
-                <button class="close-btn" onclick="closeGame('hwatu')">×</button>
+                <button class="close-btn" onclick="closeGame('stroop')">×</button>
             </div>
             <div class="modal-body">
                 <div id="stroop-instruction" class="instruction-phase">
@@ -1859,18 +1859,18 @@
                     <div class="result-score" style="color:var(--stroop)"><span id="hwatu-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="stroop-gauge" style="width:0%;background:var(--stroop)"></div></div><div class="result-gauge-pct" id="stroop-pct" style="color:var(--stroop)">0%</div></div>
                     <div class="result-detail" id="stroop-detail"></div>
-                    <button class="next-btn" style="background:var(--stroop)" onclick="closeGame('hwatu')">완료</button>
+                    <button class="next-btn" style="background:var(--stroop)" onclick="closeGame('stroop')">완료</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Go/No-Go Modal -->
-    <div class="modal" id="modal-yut">
+    <div class="modal" id="modal-gonogo">
         <div class="modal-content">
             <div class="modal-header gonogo">
                 <h2 class="modal-title">🖐️ 눌러라 참아라</h2>
-                <button class="close-btn" onclick="closeGame('yut')">×</button>
+                <button class="close-btn" onclick="closeGame('gonogo')">×</button>
             </div>
             <div class="modal-body">
                 <div id="gonogo-instruction" class="instruction-phase">
@@ -1900,18 +1900,18 @@
                     <div class="result-score" style="color:var(--gonogo)"><span id="yut-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="gonogo-gauge" style="width:0%;background:var(--gonogo)"></div></div><div class="result-gauge-pct" id="gonogo-pct" style="color:var(--gonogo)">0%</div></div>
                     <div class="result-detail" id="gonogo-detail"></div>
-                    <button class="next-btn" style="background:var(--gonogo)" onclick="closeGame('yut')">완료</button>
+                    <button class="next-btn" style="background:var(--gonogo)" onclick="closeGame('gonogo')">완료</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- N-Back Modal -->
-    <div class="modal" id="modal-memory">
+    <div class="modal" id="modal-nback">
         <div class="modal-content">
             <div class="modal-header nback">
                 <h2 class="modal-title">🔢 앞의 숫자 맞추기</h2>
-                <button class="close-btn" onclick="closeGame('memory')">×</button>
+                <button class="close-btn" onclick="closeGame('nback')">×</button>
             </div>
             <div class="modal-body">
                 <div id="nback-instruction" class="instruction-phase">
@@ -1944,18 +1944,18 @@
                     <div class="result-score" style="color:var(--nback)"><span id="memory-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="nback-gauge" style="width:0%;background:var(--nback)"></div></div><div class="result-gauge-pct" id="nback-pct" style="color:var(--nback)">0%</div></div>
                     <div class="result-detail" id="nback-detail"></div>
-                    <button class="next-btn" style="background:var(--nback)" onclick="closeGame('memory')">완료</button>
+                    <button class="next-btn" style="background:var(--nback)" onclick="closeGame('nback')">완료</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- PAL Modal -->
-    <div class="modal" id="modal-proverb">
+    <div class="modal" id="modal-pal">
         <div class="modal-content">
             <div class="modal-header pal">
                 <h2 class="modal-title">🧩 그림 자리 찾기</h2>
-                <button class="close-btn" onclick="closeGame('proverb')">×</button>
+                <button class="close-btn" onclick="closeGame('pal')">×</button>
             </div>
             <div class="modal-body">
                 <div id="pal-instruction" class="instruction-phase">
@@ -1990,18 +1990,18 @@
                     <div class="result-score" style="color:var(--pal)"><span id="proverb-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="pal-gauge" style="width:0%;background:var(--pal)"></div></div><div class="result-gauge-pct" id="pal-pct" style="color:var(--pal)">0%</div></div>
                     <div class="result-detail" id="pal-detail"></div>
-                    <button class="next-btn" style="background:var(--pal)" onclick="closeGame('proverb')">완료</button>
+                    <button class="next-btn" style="background:var(--pal)" onclick="closeGame('pal')">완료</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- UFOV Modal -->
-    <div class="modal" id="modal-calc">
+    <div class="modal" id="modal-ufov">
         <div class="modal-content">
             <div class="modal-header ufov">
                 <h2 class="modal-title">👁️ 순간 포착 게임</h2>
-                <button class="close-btn" onclick="closeGame('calc')">×</button>
+                <button class="close-btn" onclick="closeGame('ufov')">×</button>
             </div>
             <div class="modal-body">
                 <div id="ufov-instruction" class="instruction-phase">
@@ -2036,18 +2036,18 @@
                     <div class="result-score" style="color:var(--ufov)"><span id="calc-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="ufov-gauge" style="width:0%;background:var(--ufov)"></div></div><div class="result-gauge-pct" id="ufov-pct" style="color:var(--ufov)">0%</div></div>
                     <div class="result-detail" id="ufov-detail"></div>
-                    <button class="next-btn" style="background:var(--ufov)" onclick="closeGame('calc')">완료</button>
+                    <button class="next-btn" style="background:var(--ufov)" onclick="closeGame('ufov')">완료</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Trail Making Modal -->
-    <div class="modal" id="modal-sequence">
+    <div class="modal" id="modal-trail">
         <div class="modal-content">
             <div class="modal-header trail">
                 <h2 class="modal-title">🔗 번호 순서대로 잇기</h2>
-                <button class="close-btn" onclick="closeGame('sequence')">×</button>
+                <button class="close-btn" onclick="closeGame('trail')">×</button>
             </div>
             <div class="modal-body">
                 <div id="trail-instruction" class="instruction-phase">
@@ -2075,7 +2075,7 @@
                     <div class="result-score" style="color:var(--trail)"><span id="sequence-score">0</span><span class="result-max-score"> / 100</span></div>
                     <div class="result-gauge"><div class="result-gauge-track"><div class="result-gauge-fill" id="trail-gauge" style="width:0%;background:var(--trail)"></div></div><div class="result-gauge-pct" id="trail-pct" style="color:var(--trail)">0%</div></div>
                     <div class="result-detail" id="trail-detail"></div>
-                    <button class="next-btn" style="background:var(--trail)" onclick="closeGame('sequence')">완료</button>
+                    <button class="next-btn" style="background:var(--trail)" onclick="closeGame('trail')">완료</button>
                 </div>
             </div>
         </div>
@@ -2233,16 +2233,16 @@
             reasoningScores.push(seq);
         });
         if (gameState.completedGames.length > 0) {
-            if (gameState.memory.completed) memoryScores.push(Number(gameState.memory.score));
-            if (gameState.yut.completed) attentionScores.push(Number(gameState.yut.score));
-            const hw = gameState.hwatu.completed ? Number(gameState.hwatu.score) : null;
-            const cal = gameState.calc.completed ? Number(gameState.calc.score) : null;
+            if (gameState.nback.completed) memoryScores.push(Number(gameState.nback.score));
+            if (gameState.gonogo.completed) attentionScores.push(Number(gameState.gonogo.score));
+            const hw = gameState.stroop.completed ? Number(gameState.stroop.score) : null;
+            const cal = gameState.ufov.completed ? Number(gameState.ufov.score) : null;
             if (hw !== null || cal !== null) {
                 const h = hw||0, c = cal||0, cnt = (hw!==null?1:0)+(cal!==null?1:0);
                 languageScores.push((h+c)/cnt);
             }
-            if (gameState.proverb.completed) calculationScores.push(Number(gameState.proverb.score));
-            if (gameState.sequence.completed) reasoningScores.push(Number(gameState.sequence.score));
+            if (gameState.pal.completed) calculationScores.push(Number(gameState.pal.score));
+            if (gameState.trail.completed) reasoningScores.push(Number(gameState.trail.score));
         }
         const avg = arr => arr.length > 0 ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : 0;
         dashboardData.currentCognitive.memory = avg(memoryScores);
@@ -2306,12 +2306,12 @@
             history.forEach(r => { avgS.stroop+=Number(r.stroop_score)||0; avgS.gonogo+=Number(r.gonogo_score)||0; avgS.nback+=Number(r.nback_score)||0; avgS.pal+=Number(r.pal_score)||0; avgS.ufov+=Number(r.ufov_score)||0; avgS.trail+=Number(r.trail_score)||0; });
             Object.keys(avgS).forEach(k => avgS[k] = Math.round(avgS[k]/history.length));
         }
-        document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed ? gameState.hwatu.score : (avgS.stroop>0?avgS.stroop:'-');
-        document.getElementById('dash-yut').textContent = gameState.yut.completed ? gameState.yut.score : (avgS.gonogo>0?avgS.gonogo:'-');
-        document.getElementById('dash-memory').textContent = gameState.memory.completed ? gameState.memory.score : (avgS.nback>0?avgS.nback:'-');
-        document.getElementById('dash-proverb').textContent = gameState.proverb.completed ? gameState.proverb.score : (avgS.pal>0?avgS.pal:'-');
-        document.getElementById('dash-calc').textContent = gameState.calc.completed ? gameState.calc.score : (avgS.ufov>0?avgS.ufov:'-');
-        document.getElementById('dash-sequence').textContent = gameState.sequence.completed ? gameState.sequence.score : (avgS.trail>0?avgS.trail:'-');
+        document.getElementById('dash-stroop').textContent = gameState.stroop.completed ? gameState.stroop.score : (avgS.stroop>0?avgS.stroop:'-');
+        document.getElementById('dash-gonogo').textContent = gameState.gonogo.completed ? gameState.gonogo.score : (avgS.gonogo>0?avgS.gonogo:'-');
+        document.getElementById('dash-nback').textContent = gameState.nback.completed ? gameState.nback.score : (avgS.nback>0?avgS.nback:'-');
+        document.getElementById('dash-pal').textContent = gameState.pal.completed ? gameState.pal.score : (avgS.pal>0?avgS.pal:'-');
+        document.getElementById('dash-ufov').textContent = gameState.ufov.completed ? gameState.ufov.score : (avgS.ufov>0?avgS.ufov:'-');
+        document.getElementById('dash-trail').textContent = gameState.trail.completed ? gameState.trail.score : (avgS.trail>0?avgS.trail:'-');
         renderTrendChart();
         renderInsights();
     }
@@ -2358,7 +2358,7 @@
     async function saveRecord() {
         if (gameState.completedGames.length < 6) { showToast('모든 게임을 완료해주세요!', 'error'); return; }
         try {
-            const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ action:'save', player_name:gameState.playerName, stroop_score:gameState.hwatu.score, gonogo_score:gameState.yut.score, nback_score:gameState.memory.score, pal_score:gameState.proverb.score, ufov_score:gameState.calc.score, trail_score:gameState.sequence.score }) });
+            const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ action:'save', player_name:gameState.playerName, stroop_score:gameState.stroop.score, gonogo_score:gameState.gonogo.score, nback_score:gameState.nback.score, pal_score:gameState.pal.score, ufov_score:gameState.ufov.score, trail_score:gameState.trail.score }) });
             const d = await r.json();
             if (d.success) { showToast('기록이 저장되었습니다! ('+d.session_number+'회차)', 'success'); gameState.saved = true; document.getElementById('saveBtn').disabled = true; document.getElementById('saveBtn').textContent = '✓ 저장 완료'; }
             else showToast(d.error || '저장에 실패했습니다.', 'error');
@@ -2404,7 +2404,7 @@
 
     function resetGames() {
         gameState.totalScore = 0; gameState.completedGames = []; gameState.saved = false;
-        ['hwatu','yut','memory','proverb','calc','sequence'].forEach(k => gameState[k] = {score:0,completed:false});
+        ['stroop','gonogo','nback','pal','ufov','trail'].forEach(k => gameState[k] = {score:0,completed:false});
         document.querySelectorAll('.game-card').forEach(c => c.classList.remove('completed'));
         document.getElementById('saveBtn').disabled = true;
         document.getElementById('saveBtn').textContent = '💾 기록 저장하기';
@@ -2416,7 +2416,7 @@
     function openGame(gameType) {
         if (!gameState.playerName) { showToast('먼저 이름을 입력해주세요!', 'error'); return; }
         if (gameState[gameType].completed) return;
-        const gameKeyForAPI = gameType === 'yut' ? 'pattern' : gameType;
+        const gameKeyForAPI = gameType;
         document.getElementById('heygen-pip').contentWindow.postMessage({ type: 'EXPLAIN_GAME', game: gameKeyForAPI }, '*');
         document.getElementById('modal-'+gameType).classList.add('active');
         // Show instruction phase, hide others
@@ -2433,10 +2433,10 @@
     function closeGame(gameType) {
         document.getElementById('modal-'+gameType).classList.remove('active');
         // Clear any running timers
-        if (gameType === 'hwatu' && stroopTimerId) { clearInterval(stroopTimerId); stroopTimerId = null; }
-        if (gameType === 'yut' && gonogoTimerId) { clearTimeout(gonogoTimerId); gonogoTimerId = null; }
+        if (gameType === 'stroop' && stroopTimerId) { clearInterval(stroopTimerId); stroopTimerId = null; }
+        if (gameType === 'gonogo' && gonogoTimerId) { clearTimeout(gonogoTimerId); gonogoTimerId = null; }
         if (gameType === 'memory' && nbackTimerId) { clearTimeout(nbackTimerId); nbackTimerId = null; }
-        if (gameType === 'sequence' && trailTimerId) { clearInterval(trailTimerId); trailTimerId = null; }
+        if (gameType === 'trail' && trailTimerId) { clearInterval(trailTimerId); trailTimerId = null; }
         if (gameState[gameType].completed && !gameState.completedGames.includes(gameType)) {
             gameState.completedGames.push(gameType);
             document.getElementById('card-'+gameType).classList.add('completed');
@@ -2553,8 +2553,8 @@
         document.getElementById('stroop-playing').style.display = 'none';
         const total = Math.min(100, stroopState.trials.reduce((s,t) => s + t.points, 0));
         const correctCount = stroopState.trials.filter(t => t.correct).length;
-        gameState.hwatu.score = total;
-        gameState.hwatu.completed = true;
+        gameState.stroop.score = total;
+        gameState.stroop.completed = true;
         gameState.totalScore += total;
         document.getElementById('hwatu-score').textContent = total;
         document.getElementById('stroop-gauge').style.width = total + '%';
@@ -2562,7 +2562,7 @@
         const avgRT = Math.round(stroopState.trials.reduce((s,t)=>s+t.responseTime,0)/20);
         document.getElementById('stroop-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / 20</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/20*100) + '%</span></div><div class="result-detail-row"><span class="result-detail-label">평균 반응시간</span><span class="result-detail-value">' + avgRT + 'ms</span></div>';
         document.getElementById('stroop-result').style.display = 'flex';
-        sendGameCompleteToAvatar('hwatu', '글자 색깔 고르기', total, 100);
+        sendGameCompleteToAvatar('stroop', '글자 색깔 고르기', total, 100);
     }
 
     // ============================================
@@ -2662,8 +2662,8 @@
         const raw = gonogoState.results.reduce((s,r) => s + r.points, 0);
         const maxPossible = 21*3 + 9*4; // 99
         const scaled = Math.min(100, Math.round(Math.max(0, raw) * 100 / maxPossible));
-        gameState.yut.score = scaled;
-        gameState.yut.completed = true;
+        gameState.gonogo.score = scaled;
+        gameState.gonogo.completed = true;
         gameState.totalScore += scaled;
         document.getElementById('yut-score').textContent = scaled;
         document.getElementById('gonogo-gauge').style.width = scaled + '%';
@@ -2674,7 +2674,7 @@
         const misses = gonogoState.results.filter(r=>r.category==='miss').length;
         document.getElementById('gonogo-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정확한 반응 (Hit)</span><span class="result-detail-value">'+hits+' / 21</span></div><div class="result-detail-row"><span class="result-detail-label">정확한 억제</span><span class="result-detail-value">'+crs+' / 9</span></div><div class="result-detail-row"><span class="result-detail-label">놓친 반응 (Miss)</span><span class="result-detail-value">'+misses+'</span></div><div class="result-detail-row"><span class="result-detail-label">오경보</span><span class="result-detail-value">'+fas+'</span></div>';
         document.getElementById('gonogo-result').style.display = 'flex';
-        sendGameCompleteToAvatar('yut', '눌러라 참아라', scaled, 100);
+        sendGameCompleteToAvatar('gonogo', '눌러라 참아라', scaled, 100);
     }
 
     // ============================================
@@ -2780,15 +2780,15 @@
         const total = Math.min(100, nbackState.results.reduce((s,r) => s + r.points, 0));
         const correctCount = nbackState.results.filter(r => r.correct).length;
         const answerableCount = nbackState.trials.filter(t => t.canAnswer).length;
-        gameState.memory.score = total;
-        gameState.memory.completed = true;
+        gameState.nback.score = total;
+        gameState.nback.completed = true;
         gameState.totalScore += total;
         document.getElementById('memory-score').textContent = total;
         document.getElementById('nback-gauge').style.width = total + '%';
         document.getElementById('nback-pct').textContent = total + '%';
         document.getElementById('nback-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / ' + answerableCount + '</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/answerableCount*100) + '%</span></div>';
         document.getElementById('nback-result').style.display = 'flex';
-        sendGameCompleteToAvatar('memory', '앞의 숫자 맞추기', total, 100);
+        sendGameCompleteToAvatar('nback', '앞의 숫자 맞추기', total, 100);
     }
 
     // ============================================
@@ -2959,15 +2959,15 @@
     function endPal() {
         document.getElementById('pal-playing').style.display = 'none';
         const total = Math.min(100, palState.totalScore);
-        gameState.proverb.score = total;
-        gameState.proverb.completed = true;
+        gameState.pal.score = total;
+        gameState.pal.completed = true;
         gameState.totalScore += total;
         document.getElementById('proverb-score').textContent = total;
         document.getElementById('pal-gauge').style.width = total + '%';
         document.getElementById('pal-pct').textContent = total + '%';
         document.getElementById('pal-detail').innerHTML = palState.roundResults.map((r,i) => '<div class="result-detail-row"><span class="result-detail-label">라운드 '+(i+1)+'</span><span class="result-detail-value">'+r.points+'점 (재시도: '+r.retries+')</span></div>').join('');
         document.getElementById('pal-result').style.display = 'flex';
-        sendGameCompleteToAvatar('proverb', '그림 자리 찾기', total, 100);
+        sendGameCompleteToAvatar('pal', '그림 자리 찾기', total, 100);
     }
 
     // ============================================
@@ -3131,15 +3131,15 @@
         document.getElementById('ufov-playing').style.display = 'none';
         const total = Math.min(100, Math.round(ufovState.results.reduce((s,r) => s + r.points, 0)));
         const correctCount = ufovState.results.filter(r => r.correct).length;
-        gameState.calc.score = total;
-        gameState.calc.completed = true;
+        gameState.ufov.score = total;
+        gameState.ufov.completed = true;
         gameState.totalScore += total;
         document.getElementById('calc-score').textContent = total;
         document.getElementById('ufov-gauge').style.width = total + '%';
         document.getElementById('ufov-pct').textContent = total + '%';
         document.getElementById('ufov-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / 18</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/18*100) + '%</span></div>';
         document.getElementById('ufov-result').style.display = 'flex';
-        sendGameCompleteToAvatar('calc', '순간 포착 게임', total, 100);
+        sendGameCompleteToAvatar('ufov', '순간 포착 게임', total, 100);
     }
 
     // ============================================
@@ -3290,15 +3290,15 @@
         if (trailTimerId) { clearInterval(trailTimerId); trailTimerId = null; }
         document.getElementById('trail-playing').style.display = 'none';
         const total = Math.min(100, trailState.partAScore + trailState.partBScore);
-        gameState.sequence.score = total;
-        gameState.sequence.completed = true;
+        gameState.trail.score = total;
+        gameState.trail.completed = true;
         gameState.totalScore += total;
         document.getElementById('sequence-score').textContent = total;
         document.getElementById('trail-gauge').style.width = total + '%';
         document.getElementById('trail-pct').textContent = total + '%';
         document.getElementById('trail-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">Part A</span><span class="result-detail-value">' + trailState.partAScore + '점</span></div><div class="result-detail-row"><span class="result-detail-label">Part B</span><span class="result-detail-value">' + trailState.partBScore + '점</span></div><div class="result-detail-row"><span class="result-detail-label">총 오류</span><span class="result-detail-value">' + trailState.errors + '회</span></div>';
         document.getElementById('trail-result').style.display = 'flex';
-        sendGameCompleteToAvatar('sequence', '번호 순서대로 잇기', total, 100);
+        sendGameCompleteToAvatar('trail', '번호 순서대로 잇기', total, 100);
     }
 
     // ============================================
@@ -3354,12 +3354,12 @@
     function handleVoiceCommand(action, game) {
         if (!gameState.playerName && action !== 'CLOSE_MODAL') return;
         switch (action) {
-            case 'START_GAME_STROOP': openGame('hwatu'); break;
-            case 'START_GAME_GONOGO': openGame('yut'); break;
-            case 'START_GAME_NBACK': openGame('memory'); break;
-            case 'START_GAME_PAL': openGame('proverb'); break;
-            case 'START_GAME_UFOV': openGame('calc'); break;
-            case 'START_GAME_TRAIL': openGame('sequence'); break;
+            case 'START_GAME_STROOP': openGame('stroop'); break;
+            case 'START_GAME_GONOGO': openGame('gonogo'); break;
+            case 'START_GAME_NBACK': openGame('nback'); break;
+            case 'START_GAME_PAL': openGame('pal'); break;
+            case 'START_GAME_UFOV': openGame('ufov'); break;
+            case 'START_GAME_TRAIL': openGame('trail'); break;
             case 'SHOW_MY_RECORDS': showRecordsModal(); break;
             case 'SHOW_DASHBOARD': openDashboard(); break;
             case 'SHOW_RANKING': showRankingModal(); break;
