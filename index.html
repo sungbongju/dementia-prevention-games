@@ -3386,7 +3386,7 @@
         <button class="pip-ctrl-btn close-btn" onclick="closePIP()" title="닫기">×</button>
       </div>
     </div>
-    <button id="heygen-pip-toggle" onclick="showPIP()">🤖</button>
+    <button id="heygen-pip-toggle" onclick="showPIP()"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 1 5 5v1H7V7a5 5 0 0 1 5-5z"/><rect x="3" y="8" width="18" height="12" rx="3"/><circle cx="9" cy="14" r="1.5" fill="white" stroke="none"/><circle cx="15" cy="14" r="1.5" fill="white" stroke="none"/><path d="M10 18c0.5 0.5 1.2 0.8 2 0.8s1.5-0.3 2-0.8"/></svg></button>
 
     <!-- PIP Drag + Voice Command Scripts -->
     <script>
@@ -3408,7 +3408,7 @@
       if (!isPIPMinimized) { c.style.left=(r.right-120)+'px'; c.style.top=(r.bottom-68)+'px'; c.style.right='auto'; c.style.bottom='auto'; isPIPMinimized=true; c.classList.add('minimized'); }
       else { c.style.left=Math.max(0,r.right-380)+'px'; c.style.top=Math.max(0,r.bottom-214)+'px'; c.style.right='auto'; c.style.bottom='auto'; c.style.width=''; c.style.height=''; isPIPMinimized=false; c.classList.remove('minimized'); }
     }
-    function closePIP() { document.getElementById('heygen-pip-container').classList.add('hidden'); }
+    function closePIP() { const pip=document.getElementById('heygen-pip'); if(pip&&pip.contentWindow) pip.contentWindow.postMessage({type:'STOP_AVATAR'},'*'); document.getElementById('heygen-pip-container').classList.add('hidden'); }
     function showPIP() { const c=document.getElementById('heygen-pip-container'); c.classList.remove('hidden'); if(isPIPMinimized){isPIPMinimized=false;c.classList.remove('minimized');} }
     function toggleHeyGenPIP() { document.getElementById('heygen-pip-container').classList.contains('hidden') ? showPIP() : closePIP(); }
 
