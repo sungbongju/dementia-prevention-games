@@ -2359,7 +2359,7 @@
     async function saveRecord() {
         if (gameState.completedGames.length < 6) { showToast('모든 게임을 완료해주세요!', 'error'); return; }
         try {
-            const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ action:'save', player_name:gameState.playerName, stroop_score:gameState.stroop.score, gonogo_score:gameState.gonogo.score, nback_score:gameState.nback.score, pal_score:gameState.pal.score, ufov_score:gameState.ufov.score, trail_score:gameState.trail.score }) });
+            const r = await fetch(API_URL + '?action=save', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ player_name:gameState.playerName, stroop_score:gameState.stroop.score, gonogo_score:gameState.gonogo.score, nback_score:gameState.nback.score, pal_score:gameState.pal.score, ufov_score:gameState.ufov.score, trail_score:gameState.trail.score }) });
             const d = await r.json();
             if (d.success) { showToast('기록이 저장되었습니다! ('+d.session_number+'회차)', 'success'); gameState.saved = true; document.getElementById('saveBtn').disabled = true; document.getElementById('saveBtn').textContent = '✓ 저장 완료'; }
             else showToast(d.error || '저장에 실패했습니다.', 'error');
@@ -2683,8 +2683,14 @@
     const NBACK_LEVELS = [{ n:1, trials:11, maxPoints:30 }, { n:2, trials:7, maxPoints:35 }, { n:3, trials:6, maxPoints:35 }];
     const NBACK_EXPLANATIONS = [
         '', // 1-Back은 최초 설명에서 다룸
-        '이번에는 레벨 2에요!\n\n숫자가 하나씩 나타나는데,\n지금 보는 숫자가 **두 번 전** 숫자와\n같으면 "같음", 다르면 "다름"을 누르세요.\n\n예를 들어: 삼 → 칠 → 삼 이면\n삼이 두 번 전의 삼과 같으니까 "같음"!',
-        '마지막 레벨 3이에요!\n\n이번에는 **세 번 전** 숫자와 비교해요.\n\n예를 들어: 오 → 이 → 팔 → 오 이면\n오가 세 번 전의 오와 같으니까 "같음"!\n\n어려울 수 있어요. 천천히 해보세요!'
+        '이번에는 레벨 2에요!\n\n숫자가 하나씩 나타나는데,\n지금 보는 숫자가 **두 번 전** 숫자와\n같으면 "같음", 다르면 "다름"을 누르세요.\n\n예를 들어: 3 → 7 → 3 이면\n3 이 두 번 전의 3 과 같으니까 "같음"!',
+        '마지막 레벨 3이에요!\n\n이번에는 **세 번 전** 숫자와 비교해요.\n\n예를 들어: 5 → 2 → 8 → 5 이면\n5 가 세 번 전의 5 와 같으니까 "같음"!\n\n어려울 수 있어요. 천천히 해보세요!'
+    ];
+    // 아바타 TTS용 한글 숫자 버전
+    const NBACK_EXPLANATIONS_AVATAR = [
+        '',
+        '이번에는 레벨 2에요! 숫자가 하나씩 나타나는데, 지금 보는 숫자가 두 번 전 숫자와 같으면 같음, 다르면 다름을 누르세요. 예를 들어 삼, 칠, 삼 이면 삼 이 두 번 전의 삼 과 같으니까 같음!',
+        '마지막 레벨 3이에요! 이번에는 세 번 전 숫자와 비교해요. 예를 들어 오, 이, 팔, 오 이면 오 가 세 번 전의 오 와 같으니까 같음! 어려울 수 있어요. 천천히 해보세요!'
     ];
     let nbackState = {};
     let nbackTimerId = null;
@@ -2726,7 +2732,7 @@
         // 아바타에게 설명 요청
         const pip = document.getElementById('heygen-pip');
         if (pip && pip.contentWindow) {
-            pip.contentWindow.postMessage({ type: 'NBACK_LEVEL', level: lv.n, explanation: explanation.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\n/g, ' ') }, '*');
+            pip.contentWindow.postMessage({ type: 'NBACK_LEVEL', level: lv.n, explanation: NBACK_EXPLANATIONS_AVATAR[levelIndex] }, '*');
         }
     }
 
