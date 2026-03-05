@@ -2716,10 +2716,10 @@
         const transEl = document.getElementById('nback-level-transition');
         const lv = NBACK_LEVELS[levelIndex];
         const explanation = NBACK_EXPLANATIONS[levelIndex];
-        transEl.innerHTML = '<div class="nback-transition-content">' +
+        transEl.innerHTML = '<div class="nback-transition-content" style="display:flex;flex-direction:column;align-items:center;text-align:center;width:100%">' +
             '<div class="icon-circle" style="background:var(--nback-light)">🔢</div>' +
             '<h3 style="margin:16px 0 8px;color:var(--nback)">레벨 ' + (levelIndex + 1) + ': ' + lv.n + '-Back</h3>' +
-            '<p style="white-space:pre-line;font-size:1.2rem;line-height:1.8;text-align:left;padding:12px 20px;background:var(--nback-light);border-radius:12px;margin:12px 0">' + explanation.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--nback)">$1</strong>') + '</p>' +
+            '<p style="white-space:pre-line;font-size:1.2rem;line-height:1.8;text-align:center;padding:16px 24px;background:var(--nback-light);border-radius:12px;margin:12px auto;max-width:500px">' + explanation.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--nback)">$1</strong>') + '</p>' +
             '<button class="start-game-btn" style="background:var(--nback);margin-top:16px;font-size:1.3rem;padding:16px 48px" onclick="startNBackLevel(' + levelIndex + ')">준비 완료! 시작하기</button>' +
             '</div>';
         transEl.style.display = 'flex';
