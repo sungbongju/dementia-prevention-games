@@ -1919,11 +1919,11 @@
                     <h3>앞의 숫자 맞추기</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--nback)">1</div><div class="step-text">숫자가 하나씩 화면에 나타납니다.</div></div>
-                        <div class="step-row"><div class="step-number" style="background:var(--nback)">2</div><div class="step-text">N번 전에 본 숫자와 같으면 "같음", 다르면 "다름"을 누르세요.</div></div>
-                        <div class="step-row"><div class="step-number" style="background:var(--nback)">3</div><div class="step-text">1-Back → 2-Back → 3-Back 순서로 진행됩니다.</div></div>
-                        <div class="step-row"><div class="step-number" style="background:var(--nback)">4</div><div class="step-text">레벨이 올라갈수록 어려워집니다!</div></div>
+                        <div class="step-row"><div class="step-number" style="background:var(--nback)">2</div><div class="step-text"><strong>바로 전</strong> 숫자와 같으면 "같음", 다르면 "다름"을 누르세요.</div></div>
+                        <div class="step-row"><div class="step-number" style="background:var(--nback)">3</div><div class="step-text">예: 3 → <strong>3</strong> 이면 "같음"! / 3 → <strong>7</strong> 이면 "다름"!</div></div>
+                        <div class="step-row"><div class="step-number" style="background:var(--nback)">4</div><div class="step-text">레벨 1 → 2 → 3 순서로 점점 어려워져요.</div></div>
                     </div>
-                    <button class="start-game-btn" style="background:var(--nback)" onclick="startNBack()">시작하기</button>
+                    <button class="start-game-btn" style="background:var(--nback)" onclick="startNBack()">레벨 1 시작하기</button>
                 </div>
                 <div id="nback-playing" style="display:none">
                     <div class="game-info-bar">
@@ -1938,6 +1938,7 @@
                         <button class="nback-btn nomatch" id="nback-nomatch" onclick="nbackAnswer('noMatch')" disabled>다름</button>
                     </div>
                 </div>
+                <div id="nback-level-transition" class="instruction-phase" style="display:none"></div>
                 <div class="game-result" id="nback-result" style="display:none">
                     <div class="result-icon-circle" style="background:var(--nback-light)"><span class="result-icon">✓</span></div>
                     <div class="result-text">게임 완료!</div>
@@ -2679,23 +2680,54 @@
     // ============================================
     // GAME 3: N-BACK (nback)
     // ============================================
-    const NBACK_LEVELS = [{ n:1, trials:15, weight:2.0 }, { n:2, trials:15, weight:2.5 }, { n:3, trials:10, weight:3.2 }];
+    const NBACK_LEVELS = [{ n:1, trials:11, maxPoints:30 }, { n:2, trials:7, maxPoints:35 }, { n:3, trials:6, maxPoints:35 }];
+    const NBACK_EXPLANATIONS = [
+        '', // 1-Back은 최초 설명에서 다룸
+        '이번에는 2-Back이에요!\n\n숫자가 하나씩 나타나는데,\n지금 보는 숫자가 **두 번 전** 숫자와\n같으면 "같음", 다르면 "다름"을 누르세요.\n\n예를 들어: 3 → 7 → 3 이면\n3이 두 번 전의 3과 같으니까 "같음"!',
+        '마지막! 3-Back이에요!\n\n이번에는 **세 번 전** 숫자와 비교해요.\n\n예를 들어: 5 → 2 → 8 → 5 이면\n5가 세 번 전의 5와 같으니까 "같음"!\n\n어려울 수 있어요. 천천히 해보세요!'
+    ];
     let nbackState = {};
     let nbackTimerId = null;
 
     function startNBack() {
-        // Generate all sequences
-        const allTrials = [];
-        NBACK_LEVELS.forEach((lv, li) => {
-            const seq = generateNBackSequence(lv.n, lv.trials);
-            seq.forEach((t, i) => allTrials.push({ ...t, levelIndex: li, n: lv.n, weight: lv.weight }));
-        });
-        nbackState = { trials: allTrials, results: [], currentIndex: 0, scoreLive: 0 };
+        nbackState = { levelIndex: 0, results: [], scoreLive: 0, trials: [], currentIndex: 0 };
         document.getElementById('nback-instruction').style.display = 'none';
         document.getElementById('nback-playing').style.display = 'block';
         document.getElementById('nback-result').style.display = 'none';
-        document.getElementById('nback-total').textContent = allTrials.length;
+        document.getElementById('nback-level-transition').style.display = 'none';
+        startNBackLevel(0);
+    }
+
+    function startNBackLevel(levelIndex) {
+        const lv = NBACK_LEVELS[levelIndex];
+        const seq = generateNBackSequence(lv.n, lv.trials);
+        const levelTrials = seq.map(t => ({ ...t, levelIndex, n: lv.n, weight: lv.weight }));
+        nbackState.levelIndex = levelIndex;
+        nbackState.currentIndex = 0;
+        nbackState.trials = levelTrials;
+        document.getElementById('nback-total').textContent = levelTrials.length;
+        document.getElementById('nback-playing').style.display = 'block';
+        document.getElementById('nback-level-transition').style.display = 'none';
         showNBackTrial();
+    }
+
+    function showNBackLevelTransition(levelIndex) {
+        document.getElementById('nback-playing').style.display = 'none';
+        const transEl = document.getElementById('nback-level-transition');
+        const lv = NBACK_LEVELS[levelIndex];
+        const explanation = NBACK_EXPLANATIONS[levelIndex];
+        transEl.innerHTML = '<div class="nback-transition-content">' +
+            '<div class="icon-circle" style="background:var(--nback-light)">🔢</div>' +
+            '<h3 style="margin:16px 0 8px;color:var(--nback)">레벨 ' + (levelIndex + 1) + ': ' + lv.n + '-Back</h3>' +
+            '<p style="white-space:pre-line;font-size:1.2rem;line-height:1.8;text-align:left;padding:12px 20px;background:var(--nback-light);border-radius:12px;margin:12px 0">' + explanation.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--nback)">$1</strong>') + '</p>' +
+            '<button class="start-game-btn" style="background:var(--nback);margin-top:16px;font-size:1.3rem;padding:16px 48px" onclick="startNBackLevel(' + levelIndex + ')">준비 완료! 시작하기</button>' +
+            '</div>';
+        transEl.style.display = 'flex';
+        // 아바타에게 설명 요청
+        const pip = document.getElementById('heygen-pip');
+        if (pip && pip.contentWindow) {
+            pip.contentWindow.postMessage({ type: 'NBACK_LEVEL', level: lv.n, explanation: explanation.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\n/g, ' ') }, '*');
+        }
     }
 
     function generateNBackSequence(n, count) {
@@ -2713,7 +2745,16 @@
     }
 
     function showNBackTrial() {
-        if (nbackState.currentIndex >= nbackState.trials.length) { endNBack(); return; }
+        if (nbackState.currentIndex >= nbackState.trials.length) {
+            // 현재 레벨 끝 -> 다음 레벨 or 종료
+            const nextLevel = nbackState.levelIndex + 1;
+            if (nextLevel < NBACK_LEVELS.length) {
+                showNBackLevelTransition(nextLevel);
+            } else {
+                endNBack();
+            }
+            return;
+        }
         const trial = nbackState.trials[nbackState.currentIndex];
         document.getElementById('nback-trial').textContent = nbackState.currentIndex + 1;
         document.getElementById('nback-progress').style.width = (nbackState.currentIndex / nbackState.trials.length * 100) + '%';
@@ -2739,16 +2780,8 @@
                 nbackState.currentIndex++;
                 showNBackTrial();
             }, 2000);
-        } else {
-            // Wait for response with timeout
-            nbackTimerId = setTimeout(() => {
-                if (!nbackState.answered) {
-                    nbackState.results.push({ level: trial.levelIndex, correct: false, points: 0, isMatch: trial.isMatch, responded: 'timeout' });
-                    nbackState.currentIndex++;
-                    showNBackTrial();
-                }
-            }, 4000);
         }
+        // canAnswer인 경우 시간제한 없이 사용자 응답 대기
     }
 
     function nbackAnswer(response) {
@@ -2758,9 +2791,18 @@
 
         const trial = nbackState.trials[nbackState.currentIndex];
         const correct = (trial.isMatch && response === 'match') || (!trial.isMatch && response === 'noMatch');
-        const points = correct ? Math.round(trial.weight * (trial.isMatch ? 1.5 : 1)) : 0;
-        nbackState.results.push({ level: trial.levelIndex, correct, points, isMatch: trial.isMatch, responded: response });
-        if (correct) nbackState.scoreLive += points;
+        nbackState.results.push({ level: trial.levelIndex, correct, isMatch: trial.isMatch, responded: response });
+        // 실시간 점수 계산 (레벨별 정답률 × 배점)
+        let liveTot = 0;
+        NBACK_LEVELS.forEach((lv, li) => {
+            const lvResults = nbackState.results.filter(r => r.level === li);
+            if (lvResults.length > 0) {
+                const lvCorrect = lvResults.filter(r => r.correct).length;
+                const lvAnswerable = li === nbackState.levelIndex ? nbackState.trials.filter(t => t.canAnswer).length : NBACK_LEVELS[li].trials - NBACK_LEVELS[li].n; // n개는 답 못함
+                liveTot += Math.round(lvCorrect / Math.max(1, lvAnswerable) * lv.maxPoints);
+            }
+        });
+        nbackState.scoreLive = liveTot;
         document.getElementById('nback-score-live').textContent = nbackState.scoreLive;
 
         // Visual feedback
@@ -2776,16 +2818,34 @@
 
     function endNBack() {
         document.getElementById('nback-playing').style.display = 'none';
-        const total = Math.min(100, nbackState.results.reduce((s,r) => s + r.points, 0));
+        document.getElementById('nback-level-transition').style.display = 'none';
+        // 레벨별 정답률 × 배점 합산
+        let total = 0;
+        NBACK_LEVELS.forEach((lv, li) => {
+            const lvResults = nbackState.results.filter(r => r.level === li);
+            const lvAnswerable = lv.trials - lv.n;
+            const lvCorrect = lvResults.filter(r => r.correct).length;
+            total += Math.round(lvCorrect / Math.max(1, lvAnswerable) * lv.maxPoints);
+        });
+        total = Math.min(100, total);
         const correctCount = nbackState.results.filter(r => r.correct).length;
-        const answerableCount = nbackState.trials.filter(t => t.canAnswer).length;
+        const answerableCount = nbackState.results.length;
         gameState.nback.score = total;
         gameState.nback.completed = true;
         gameState.totalScore += total;
         document.getElementById('nback-score').textContent = total;
         document.getElementById('nback-gauge').style.width = total + '%';
         document.getElementById('nback-pct').textContent = total + '%';
-        document.getElementById('nback-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / ' + answerableCount + '</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/answerableCount*100) + '%</span></div>';
+        let detailHTML = '';
+        NBACK_LEVELS.forEach((lv, li) => {
+            const lvResults = nbackState.results.filter(r => r.level === li);
+            const lvAnswerable = lv.trials - lv.n;
+            const lvCorrect = lvResults.filter(r => r.correct).length;
+            const lvScore = Math.round(lvCorrect / Math.max(1, lvAnswerable) * lv.maxPoints);
+            detailHTML += '<div class="result-detail-row"><span class="result-detail-label">' + lv.n + '-Back</span><span class="result-detail-value">' + lvCorrect + '/' + lvAnswerable + '정답 (' + lvScore + '/' + lv.maxPoints + '점)</span></div>';
+        });
+        detailHTML += '<div class="result-detail-row"><span class="result-detail-label">전체 정답률</span><span class="result-detail-value">' + Math.round(correctCount/answerableCount*100) + '%</span></div>';
+        document.getElementById('nback-detail').innerHTML = detailHTML;
         document.getElementById('nback-result').style.display = 'flex';
         sendGameCompleteToAvatar('nback', '앞의 숫자 맞추기', total, 100);
     }
