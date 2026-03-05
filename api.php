@@ -1,7 +1,7 @@
 <?php
 // api.php - 게임 기록 API
 // PHP 5.4 호환 버전
-// yut_score -> pattern_score (색상 패턴 기억 게임)
+// yut_score -> gonogo_score (색상 패턴 기억 게임)
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
@@ -36,19 +36,19 @@ switch ($action) {
         $result = $stmt->fetch();
         $sessionNumber = $result['max_session'] + 1;
         
-        // 기록 저장 (pattern_score)
+        // 기록 저장 (gonogo_score)
         $stmt = $pdo->prepare("
             INSERT INTO game_records 
-            (player_name, session_number, hwatu_score, pattern_score, memory_score, proverb_score, calc_score, sequence_score, total_score)
+            (player_name, session_number, stroop_score, gonogo_score, nback_score, pal_score, ufov_score, trail_score, total_score)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        $hwatu = isset($data['hwatu_score']) ? intval($data['hwatu_score']) : 0;
-        $pattern = isset($data['pattern_score']) ? intval($data['pattern_score']) : 0;
-        $memory = isset($data['memory_score']) ? intval($data['memory_score']) : 0;
-        $proverb = isset($data['proverb_score']) ? intval($data['proverb_score']) : 0;
-        $calc = isset($data['calc_score']) ? intval($data['calc_score']) : 0;
-        $sequence = isset($data['sequence_score']) ? intval($data['sequence_score']) : 0;
+        $hwatu = isset($data['stroop_score']) ? intval($data['stroop_score']) : 0;
+        $pattern = isset($data['gonogo_score']) ? intval($data['gonogo_score']) : 0;
+        $memory = isset($data['nback_score']) ? intval($data['nback_score']) : 0;
+        $proverb = isset($data['pal_score']) ? intval($data['pal_score']) : 0;
+        $calc = isset($data['ufov_score']) ? intval($data['ufov_score']) : 0;
+        $sequence = isset($data['trail_score']) ? intval($data['trail_score']) : 0;
         $total = $hwatu + $pattern + $memory + $proverb + $calc + $sequence;
         
         $stmt->execute(array(
@@ -147,12 +147,12 @@ switch ($action) {
                 COUNT(*) as total_games,
                 MAX(total_score) as best_score,
                 AVG(total_score) as avg_score,
-                MAX(hwatu_score) as best_hwatu,
-                MAX(pattern_score) as best_pattern,
-                MAX(memory_score) as best_memory,
-                MAX(proverb_score) as best_proverb,
-                MAX(calc_score) as best_calc,
-                MAX(sequence_score) as best_sequence,
+                MAX(stroop_score) as best_stroop,
+                MAX(gonogo_score) as best_gonogo,
+                MAX(nback_score) as best_nback,
+                MAX(pal_score) as best_pal,
+                MAX(ufov_score) as best_ufov,
+                MAX(trail_score) as best_trail,
                 MIN(created_at) as first_played,
                 MAX(created_at) as last_played
             FROM game_records

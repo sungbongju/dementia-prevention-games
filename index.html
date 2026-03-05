@@ -2216,8 +2216,8 @@
         }
         const memoryScores = [], attentionScores = [], languageScores = [], calculationScores = [], reasoningScores = [];
         history.forEach(r => {
-            const hw = Number(r.hwatu_score)||0, mem = Number(r.memory_score)||0, pat = Number(r.pattern_score)||0;
-            const prv = Number(r.proverb_score)||0, cal = Number(r.calc_score)||0, seq = Number(r.sequence_score)||0;
+            const hw = Number(r.stroop_score)||0, mem = Number(r.nback_score)||0, pat = Number(r.gonogo_score)||0;
+            const prv = Number(r.pal_score)||0, cal = Number(r.ufov_score)||0, seq = Number(r.trail_score)||0;
             memoryScores.push(mem);
             attentionScores.push(pat);
             languageScores.push((hw + cal) / 2);
@@ -2295,15 +2295,15 @@
 
         const avgS = { hwatu:0, pattern:0, memory:0, proverb:0, calc:0, sequence:0 };
         if (history.length > 0) {
-            history.forEach(r => { avgS.hwatu+=Number(r.hwatu_score)||0; avgS.pattern+=Number(r.pattern_score)||0; avgS.memory+=Number(r.memory_score)||0; avgS.proverb+=Number(r.proverb_score)||0; avgS.calc+=Number(r.calc_score)||0; avgS.sequence+=Number(r.sequence_score)||0; });
+            history.forEach(r => { avgS.stroop+=Number(r.stroop_score)||0; avgS.gonogo+=Number(r.gonogo_score)||0; avgS.nback+=Number(r.nback_score)||0; avgS.pal+=Number(r.pal_score)||0; avgS.ufov+=Number(r.ufov_score)||0; avgS.trail+=Number(r.trail_score)||0; });
             Object.keys(avgS).forEach(k => avgS[k] = Math.round(avgS[k]/history.length));
         }
-        document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed ? gameState.hwatu.score : (avgS.hwatu>0?avgS.hwatu:'-');
-        document.getElementById('dash-yut').textContent = gameState.yut.completed ? gameState.yut.score : (avgS.pattern>0?avgS.pattern:'-');
-        document.getElementById('dash-memory').textContent = gameState.memory.completed ? gameState.memory.score : (avgS.memory>0?avgS.memory:'-');
-        document.getElementById('dash-proverb').textContent = gameState.proverb.completed ? gameState.proverb.score : (avgS.proverb>0?avgS.proverb:'-');
-        document.getElementById('dash-calc').textContent = gameState.calc.completed ? gameState.calc.score : (avgS.calc>0?avgS.calc:'-');
-        document.getElementById('dash-sequence').textContent = gameState.sequence.completed ? gameState.sequence.score : (avgS.sequence>0?avgS.sequence:'-');
+        document.getElementById('dash-hwatu').textContent = gameState.hwatu.completed ? gameState.hwatu.score : (avgS.stroop>0?avgS.stroop:'-');
+        document.getElementById('dash-yut').textContent = gameState.yut.completed ? gameState.yut.score : (avgS.gonogo>0?avgS.gonogo:'-');
+        document.getElementById('dash-memory').textContent = gameState.memory.completed ? gameState.memory.score : (avgS.nback>0?avgS.nback:'-');
+        document.getElementById('dash-proverb').textContent = gameState.proverb.completed ? gameState.proverb.score : (avgS.pal>0?avgS.pal:'-');
+        document.getElementById('dash-calc').textContent = gameState.calc.completed ? gameState.calc.score : (avgS.ufov>0?avgS.ufov:'-');
+        document.getElementById('dash-sequence').textContent = gameState.sequence.completed ? gameState.sequence.score : (avgS.trail>0?avgS.trail:'-');
         renderTrendChart();
         renderInsights();
     }
@@ -2350,7 +2350,7 @@
     async function saveRecord() {
         if (gameState.completedGames.length < 6) { showToast('모든 게임을 완료해주세요!', 'error'); return; }
         try {
-            const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ action:'save', player_name:gameState.playerName, hwatu_score:gameState.hwatu.score, pattern_score:gameState.yut.score, memory_score:gameState.memory.score, proverb_score:gameState.proverb.score, calc_score:gameState.calc.score, sequence_score:gameState.sequence.score }) });
+            const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ action:'save', player_name:gameState.playerName, stroop_score:gameState.hwatu.score, gonogo_score:gameState.yut.score, nback_score:gameState.memory.score, pal_score:gameState.proverb.score, ufov_score:gameState.calc.score, trail_score:gameState.sequence.score }) });
             const d = await r.json();
             if (d.success) { showToast('기록이 저장되었습니다! ('+d.session_number+'회차)', 'success'); gameState.saved = true; document.getElementById('saveBtn').disabled = true; document.getElementById('saveBtn').textContent = '✓ 저장 완료'; }
             else showToast(d.error || '저장에 실패했습니다.', 'error');
@@ -2373,13 +2373,13 @@
     }
     async function loadMyRecords(name) {
         try { const r = await fetch(API_URL+'?action=get_records&player_name='+encodeURIComponent(name)); const d = await r.json(); const c = document.getElementById('records-list');
-            if (d.success && d.records.length > 0) { c.innerHTML = ''; d.records.forEach(rec => { const dt = new Date(rec.created_at).toLocaleString('ko-KR'); c.innerHTML += '<div class="record-card"><div class="record-header"><span class="record-session">'+rec.session_number+'회차</span><span class="record-date">'+dt+'</span></div><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+rec.hwatu_score+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+rec.pattern_score+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+rec.memory_score+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+rec.proverb_score+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+rec.calc_score+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+rec.sequence_score+'</div></div></div><div class="record-total">총점: '+rec.total_score+'점</div></div>'; }); }
+            if (d.success && d.records.length > 0) { c.innerHTML = ''; d.records.forEach(rec => { const dt = new Date(rec.created_at).toLocaleString('ko-KR'); c.innerHTML += '<div class="record-card"><div class="record-header"><span class="record-session">'+rec.session_number+'회차</span><span class="record-date">'+dt+'</span></div><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+rec.stroop_score+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+rec.gonogo_score+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+rec.nback_score+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+rec.pal_score+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+rec.ufov_score+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+rec.trail_score+'</div></div></div><div class="record-total">총점: '+rec.total_score+'점</div></div>'; }); }
             else c.innerHTML = '<p style="text-align:center;padding:40px;color:#888;">아직 기록이 없습니다.</p>';
         } catch(e){}
     }
     async function loadMyStats(name) {
         try { const r = await fetch(API_URL+'?action=get_stats&player_name='+encodeURIComponent(name)); const d = await r.json(); const c = document.getElementById('stats-content');
-            if (d.success && d.stats.total_games > 0) { const s = d.stats; c.innerHTML = '<div class="record-card"><h3 style="margin-bottom:16px;font-weight:800;color:var(--stroop)">📊 '+name+'님의 통계</h3><div class="record-scores"><div class="record-score-item"><div class="label">총 플레이</div><div class="value">'+s.total_games+'회</div></div><div class="record-score-item"><div class="label">최고 점수</div><div class="value" style="color:var(--error)">'+s.best_score+'점</div></div><div class="record-score-item"><div class="label">평균 점수</div><div class="value">'+Math.round(s.avg_score)+'점</div></div></div><h4 style="margin:16px 0 12px;color:var(--text-secondary)">🏅 게임별 최고 기록</h4><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+(s.best_hwatu||0)+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+(s.best_pattern||0)+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+(s.best_memory||0)+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+(s.best_proverb||0)+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+(s.best_calc||0)+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+(s.best_sequence||0)+'</div></div></div></div>'; }
+            if (d.success && d.stats.total_games > 0) { const s = d.stats; c.innerHTML = '<div class="record-card"><h3 style="margin-bottom:16px;font-weight:800;color:var(--stroop)">📊 '+name+'님의 통계</h3><div class="record-scores"><div class="record-score-item"><div class="label">총 플레이</div><div class="value">'+s.total_games+'회</div></div><div class="record-score-item"><div class="label">최고 점수</div><div class="value" style="color:var(--error)">'+s.best_score+'점</div></div><div class="record-score-item"><div class="label">평균 점수</div><div class="value">'+Math.round(s.avg_score)+'점</div></div></div><h4 style="margin:16px 0 12px;color:var(--text-secondary)">🏅 게임별 최고 기록</h4><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+(s.best_stroop||0)+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+(s.best_gonogo||0)+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+(s.best_nback||0)+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+(s.best_pal||0)+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+(s.best_ufov||0)+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+(s.best_trail||0)+'</div></div></div></div>'; }
             else c.innerHTML = '<p style="text-align:center;padding:40px;color:#888;">통계 데이터가 없습니다.</p>';
         } catch(e){}
     }
