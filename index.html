@@ -1805,12 +1805,12 @@
                     <div class="dashboard-card full-width">
                         <h3>🎮 게임별 점수</h3>
                         <div class="game-scores-grid">
-                            <div class="game-score-item"><div class="icon">🧠</div><div class="name">스트룹 과제</div><div class="score" id="dash-hwatu">-</div><span class="cognitive-tag language">주의 집중</span></div>
-                            <div class="game-score-item"><div class="icon">🖐️</div><div class="name">Go/No-Go</div><div class="score" id="dash-yut">-</div><span class="cognitive-tag attention">억제 통제</span></div>
-                            <div class="game-score-item"><div class="icon">🔢</div><div class="name">N-Back</div><div class="score" id="dash-memory">-</div><span class="cognitive-tag memory">작업기억</span></div>
-                            <div class="game-score-item"><div class="icon">🧩</div><div class="name">PAL 연합학습</div><div class="score" id="dash-proverb">-</div><span class="cognitive-tag calculation">시공간</span></div>
-                            <div class="game-score-item"><div class="icon">👁️</div><div class="name">UFOV 시야인지</div><div class="score" id="dash-calc">-</div><span class="cognitive-tag language">주의 집중</span></div>
-                            <div class="game-score-item"><div class="icon">🔗</div><div class="name">Trail Making</div><div class="score" id="dash-sequence">-</div><span class="cognitive-tag reasoning">실행 기능</span></div>
+                            <div class="game-score-item"><div class="icon">🎨</div><div class="name">글자 색깔 고르기</div><div class="score" id="dash-hwatu">-</div><span class="cognitive-tag language">선택적 주의력</span></div>
+                            <div class="game-score-item"><div class="icon">🖐️</div><div class="name">눌러라 참아라</div><div class="score" id="dash-yut">-</div><span class="cognitive-tag attention">억제 통제력</span></div>
+                            <div class="game-score-item"><div class="icon">🔢</div><div class="name">앞의 숫자 맞추기</div><div class="score" id="dash-memory">-</div><span class="cognitive-tag memory">작업기억</span></div>
+                            <div class="game-score-item"><div class="icon">🧩</div><div class="name">그림 자리 찾기</div><div class="score" id="dash-proverb">-</div><span class="cognitive-tag calculation">시공간 기억</span></div>
+                            <div class="game-score-item"><div class="icon">👁️</div><div class="name">순간 포착 게임</div><div class="score" id="dash-calc">-</div><span class="cognitive-tag language">처리 속도</span></div>
+                            <div class="game-score-item"><div class="icon">🔗</div><div class="name">번호 순서대로 잇기</div><div class="score" id="dash-sequence">-</div><span class="cognitive-tag reasoning">실행 기능</span></div>
                         </div>
                     </div>
                     <div class="dashboard-card full-width">
@@ -1828,13 +1828,13 @@
     <div class="modal" id="modal-hwatu">
         <div class="modal-content">
             <div class="modal-header stroop">
-                <h2 class="modal-title">🧠 스트룹 과제</h2>
+                <h2 class="modal-title">🎨 글자 색깔 고르기</h2>
                 <button class="close-btn" onclick="closeGame('hwatu')">×</button>
             </div>
             <div class="modal-body">
                 <div id="stroop-instruction" class="instruction-phase">
-                    <div class="icon-circle" style="background:var(--stroop-light)">🧠</div>
-                    <h3>스트룹 과제</h3>
+                    <div class="icon-circle" style="background:var(--stroop-light)">🎨</div>
+                    <h3>글자 색깔 고르기</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--stroop)">1</div><div class="step-text">화면에 색깔 단어가 다른 색으로 표시됩니다.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--stroop)">2</div><div class="step-text">글자의 뜻이 아닌, 글자의 <b>"색깔"</b>을 맞추세요.</div></div>
@@ -1869,13 +1869,13 @@
     <div class="modal" id="modal-yut">
         <div class="modal-content">
             <div class="modal-header gonogo">
-                <h2 class="modal-title">🖐️ Go / No-Go</h2>
+                <h2 class="modal-title">🖐️ 눌러라 참아라</h2>
                 <button class="close-btn" onclick="closeGame('yut')">×</button>
             </div>
             <div class="modal-body">
                 <div id="gonogo-instruction" class="instruction-phase">
                     <div class="icon-circle" style="background:var(--gonogo-light)">🖐️</div>
-                    <h3>Go / No-Go</h3>
+                    <h3>눌러라 참아라</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--gonogo)">1</div><div class="step-text">초록색 원이 나타나면 빠르게 TAP 버튼을 누르세요.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--gonogo)">2</div><div class="step-text">빨간색 X가 나타나면 누르지 마세요!</div></div>
@@ -1910,13 +1910,13 @@
     <div class="modal" id="modal-memory">
         <div class="modal-content">
             <div class="modal-header nback">
-                <h2 class="modal-title">🔢 N-Back</h2>
+                <h2 class="modal-title">🔢 앞의 숫자 맞추기</h2>
                 <button class="close-btn" onclick="closeGame('memory')">×</button>
             </div>
             <div class="modal-body">
                 <div id="nback-instruction" class="instruction-phase">
                     <div class="icon-circle" style="background:var(--nback-light)">🔢</div>
-                    <h3>N-Back</h3>
+                    <h3>앞의 숫자 맞추기</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--nback)">1</div><div class="step-text">숫자가 하나씩 화면에 나타납니다.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--nback)">2</div><div class="step-text">N번 전에 본 숫자와 같으면 "같음", 다르면 "다름"을 누르세요.</div></div>
@@ -1954,13 +1954,13 @@
     <div class="modal" id="modal-proverb">
         <div class="modal-content">
             <div class="modal-header pal">
-                <h2 class="modal-title">🧩 연합 학습 (PAL)</h2>
+                <h2 class="modal-title">🧩 그림 자리 찾기</h2>
                 <button class="close-btn" onclick="closeGame('proverb')">×</button>
             </div>
             <div class="modal-body">
                 <div id="pal-instruction" class="instruction-phase">
                     <div class="icon-circle" style="background:var(--pal-light)">🧩</div>
-                    <h3>연합 학습 (PAL)</h3>
+                    <h3>그림 자리 찾기</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--pal)">1</div><div class="step-text">상자가 하나씩 열리면서 기호가 나타납니다.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--pal)">2</div><div class="step-text">기호가 어떤 상자에 있었는지 잘 기억하세요!</div></div>
@@ -2000,13 +2000,13 @@
     <div class="modal" id="modal-calc">
         <div class="modal-content">
             <div class="modal-header ufov">
-                <h2 class="modal-title">👁️ 시야 인지 (UFOV)</h2>
+                <h2 class="modal-title">👁️ 순간 포착 게임</h2>
                 <button class="close-btn" onclick="closeGame('calc')">×</button>
             </div>
             <div class="modal-body">
                 <div id="ufov-instruction" class="instruction-phase">
                     <div class="icon-circle" style="background:var(--ufov-light)">👁️</div>
-                    <h3>시야 인지 (UFOV)</h3>
+                    <h3>순간 포착 게임</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--ufov)">1</div><div class="step-text">화면 중앙에 짧게 나타나는 도형을 식별하세요.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--ufov)">2</div><div class="step-text">Task 2부터는 주변 방향도 맞춰야 합니다!</div></div>
@@ -2046,13 +2046,13 @@
     <div class="modal" id="modal-sequence">
         <div class="modal-content">
             <div class="modal-header trail">
-                <h2 class="modal-title">🔗 Trail Making</h2>
+                <h2 class="modal-title">🔗 번호 순서대로 잇기</h2>
                 <button class="close-btn" onclick="closeGame('sequence')">×</button>
             </div>
             <div class="modal-body">
                 <div id="trail-instruction" class="instruction-phase">
                     <div class="icon-circle" style="background:var(--trail-light)">🔗</div>
-                    <h3>Trail Making</h3>
+                    <h3>번호 순서대로 잇기</h3>
                     <div class="steps">
                         <div class="step-row"><div class="step-number" style="background:var(--trail)">1</div><div class="step-text">Part A: 1→2→3→...→10 숫자 순서대로 연결합니다.</div></div>
                         <div class="step-row"><div class="step-number" style="background:var(--trail)">2</div><div class="step-text">Part B: 1→가→2→나→3→다 교대로 연결합니다.</div></div>
@@ -2297,7 +2297,7 @@
         const wa = document.getElementById('weakAreaAlert');
         if (hasAny && minScore < 70 && minArea) {
             wa.style.display = 'block';
-            const gr = { memory:'N-Back 게임', attention:'Go/No-Go 게임', language:'스트룹 또는 UFOV 게임', calculation:'PAL 연합학습 게임', reasoning:'Trail Making 게임' };
+            const gr = { memory:'앞의 숫자 맞추기', attention:'눌러라 참아라', language:'글자 색깔 고르기 또는 순간 포착 게임', calculation:'그림 자리 찾기', reasoning:'번호 순서대로 잇기' };
             document.getElementById('weakAreaText').textContent = areaNames[minArea] + ' 영역이 ' + minScore + '%로 다소 낮습니다. ' + gr[minArea] + '을 더 연습해 보세요!';
         } else { wa.style.display = 'none'; }
 
@@ -2381,13 +2381,13 @@
     }
     async function loadMyRecords(name) {
         try { const r = await fetch(API_URL+'?action=get_records&player_name='+encodeURIComponent(name)); const d = await r.json(); const c = document.getElementById('records-list');
-            if (d.success && d.records.length > 0) { c.innerHTML = ''; d.records.forEach(rec => { const dt = new Date(rec.created_at).toLocaleString('ko-KR'); c.innerHTML += '<div class="record-card"><div class="record-header"><span class="record-session">'+rec.session_number+'회차</span><span class="record-date">'+dt+'</span></div><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+rec.stroop_score+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+rec.gonogo_score+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+rec.nback_score+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+rec.pal_score+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+rec.ufov_score+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+rec.trail_score+'</div></div></div><div class="record-total">총점: '+rec.total_score+'점</div></div>'; }); }
+            if (d.success && d.records.length > 0) { c.innerHTML = ''; d.records.forEach(rec => { const dt = new Date(rec.created_at).toLocaleString('ko-KR'); c.innerHTML += '<div class="record-card"><div class="record-header"><span class="record-session">'+rec.session_number+'회차</span><span class="record-date">'+dt+'</span></div><div class="record-scores"><div class="record-score-item"><div class="label">🎨 색깔고르기</div><div class="value">'+rec.stroop_score+'</div></div><div class="record-score-item"><div class="label">🖐️ 눌러라참아라</div><div class="value">'+rec.gonogo_score+'</div></div><div class="record-score-item"><div class="label">🔢 숫자맞추기</div><div class="value">'+rec.nback_score+'</div></div><div class="record-score-item"><div class="label">🧩 자리찾기</div><div class="value">'+rec.pal_score+'</div></div><div class="record-score-item"><div class="label">👁️ 순간포착</div><div class="value">'+rec.ufov_score+'</div></div><div class="record-score-item"><div class="label">🔗 순서잇기</div><div class="value">'+rec.trail_score+'</div></div></div><div class="record-total">총점: '+rec.total_score+'점</div></div>'; }); }
             else c.innerHTML = '<p style="text-align:center;padding:40px;color:#888;">아직 기록이 없습니다.</p>';
         } catch(e){}
     }
     async function loadMyStats(name) {
         try { const r = await fetch(API_URL+'?action=get_stats&player_name='+encodeURIComponent(name)); const d = await r.json(); const c = document.getElementById('stats-content');
-            if (d.success && d.stats.total_games > 0) { const s = d.stats; c.innerHTML = '<div class="record-card"><h3 style="margin-bottom:16px;font-weight:800;color:var(--stroop)">📊 '+name+'님의 통계</h3><div class="record-scores"><div class="record-score-item"><div class="label">총 플레이</div><div class="value">'+s.total_games+'회</div></div><div class="record-score-item"><div class="label">최고 점수</div><div class="value" style="color:var(--error)">'+s.best_score+'점</div></div><div class="record-score-item"><div class="label">평균 점수</div><div class="value">'+Math.round(s.avg_score)+'점</div></div></div><h4 style="margin:16px 0 12px;color:var(--text-secondary)">🏅 게임별 최고 기록</h4><div class="record-scores"><div class="record-score-item"><div class="label">🧠 스트룹</div><div class="value">'+(s.best_stroop||0)+'</div></div><div class="record-score-item"><div class="label">🖐️ Go/No-Go</div><div class="value">'+(s.best_gonogo||0)+'</div></div><div class="record-score-item"><div class="label">🔢 N-Back</div><div class="value">'+(s.best_nback||0)+'</div></div><div class="record-score-item"><div class="label">🧩 PAL</div><div class="value">'+(s.best_pal||0)+'</div></div><div class="record-score-item"><div class="label">👁️ UFOV</div><div class="value">'+(s.best_ufov||0)+'</div></div><div class="record-score-item"><div class="label">🔗 Trail</div><div class="value">'+(s.best_trail||0)+'</div></div></div></div>'; }
+            if (d.success && d.stats.total_games > 0) { const s = d.stats; c.innerHTML = '<div class="record-card"><h3 style="margin-bottom:16px;font-weight:800;color:var(--stroop)">📊 '+name+'님의 통계</h3><div class="record-scores"><div class="record-score-item"><div class="label">총 플레이</div><div class="value">'+s.total_games+'회</div></div><div class="record-score-item"><div class="label">최고 점수</div><div class="value" style="color:var(--error)">'+s.best_score+'점</div></div><div class="record-score-item"><div class="label">평균 점수</div><div class="value">'+Math.round(s.avg_score)+'점</div></div></div><h4 style="margin:16px 0 12px;color:var(--text-secondary)">🏅 게임별 최고 기록</h4><div class="record-scores"><div class="record-score-item"><div class="label">🎨 색깔고르기</div><div class="value">'+(s.best_stroop||0)+'</div></div><div class="record-score-item"><div class="label">🖐️ 눌러라참아라</div><div class="value">'+(s.best_gonogo||0)+'</div></div><div class="record-score-item"><div class="label">🔢 숫자맞추기</div><div class="value">'+(s.best_nback||0)+'</div></div><div class="record-score-item"><div class="label">🧩 자리찾기</div><div class="value">'+(s.best_pal||0)+'</div></div><div class="record-score-item"><div class="label">👁️ 순간포착</div><div class="value">'+(s.best_ufov||0)+'</div></div><div class="record-score-item"><div class="label">🔗 순서잇기</div><div class="value">'+(s.best_trail||0)+'</div></div></div></div>'; }
             else c.innerHTML = '<p style="text-align:center;padding:40px;color:#888;">통계 데이터가 없습니다.</p>';
         } catch(e){}
     }
@@ -2562,7 +2562,7 @@
         const avgRT = Math.round(stroopState.trials.reduce((s,t)=>s+t.responseTime,0)/20);
         document.getElementById('stroop-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / 20</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/20*100) + '%</span></div><div class="result-detail-row"><span class="result-detail-label">평균 반응시간</span><span class="result-detail-value">' + avgRT + 'ms</span></div>';
         document.getElementById('stroop-result').style.display = 'flex';
-        sendGameCompleteToAvatar('hwatu', '스트룹 과제', total, 100);
+        sendGameCompleteToAvatar('hwatu', '글자 색깔 고르기', total, 100);
     }
 
     // ============================================
@@ -2674,7 +2674,7 @@
         const misses = gonogoState.results.filter(r=>r.category==='miss').length;
         document.getElementById('gonogo-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정확한 반응 (Hit)</span><span class="result-detail-value">'+hits+' / 21</span></div><div class="result-detail-row"><span class="result-detail-label">정확한 억제</span><span class="result-detail-value">'+crs+' / 9</span></div><div class="result-detail-row"><span class="result-detail-label">놓친 반응 (Miss)</span><span class="result-detail-value">'+misses+'</span></div><div class="result-detail-row"><span class="result-detail-label">오경보</span><span class="result-detail-value">'+fas+'</span></div>';
         document.getElementById('gonogo-result').style.display = 'flex';
-        sendGameCompleteToAvatar('yut', 'Go/No-Go', scaled, 100);
+        sendGameCompleteToAvatar('yut', '눌러라 참아라', scaled, 100);
     }
 
     // ============================================
@@ -2788,7 +2788,7 @@
         document.getElementById('nback-pct').textContent = total + '%';
         document.getElementById('nback-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / ' + answerableCount + '</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/answerableCount*100) + '%</span></div>';
         document.getElementById('nback-result').style.display = 'flex';
-        sendGameCompleteToAvatar('memory', 'N-Back', total, 100);
+        sendGameCompleteToAvatar('memory', '앞의 숫자 맞추기', total, 100);
     }
 
     // ============================================
@@ -2967,7 +2967,7 @@
         document.getElementById('pal-pct').textContent = total + '%';
         document.getElementById('pal-detail').innerHTML = palState.roundResults.map((r,i) => '<div class="result-detail-row"><span class="result-detail-label">라운드 '+(i+1)+'</span><span class="result-detail-value">'+r.points+'점 (재시도: '+r.retries+')</span></div>').join('');
         document.getElementById('pal-result').style.display = 'flex';
-        sendGameCompleteToAvatar('proverb', 'PAL 연합학습', total, 100);
+        sendGameCompleteToAvatar('proverb', '그림 자리 찾기', total, 100);
     }
 
     // ============================================
@@ -3139,7 +3139,7 @@
         document.getElementById('ufov-pct').textContent = total + '%';
         document.getElementById('ufov-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">정답</span><span class="result-detail-value">' + correctCount + ' / 18</span></div><div class="result-detail-row"><span class="result-detail-label">정답률</span><span class="result-detail-value">' + Math.round(correctCount/18*100) + '%</span></div>';
         document.getElementById('ufov-result').style.display = 'flex';
-        sendGameCompleteToAvatar('calc', 'UFOV 시야인지', total, 100);
+        sendGameCompleteToAvatar('calc', '순간 포착 게임', total, 100);
     }
 
     // ============================================
@@ -3298,7 +3298,7 @@
         document.getElementById('trail-pct').textContent = total + '%';
         document.getElementById('trail-detail').innerHTML = '<div class="result-detail-row"><span class="result-detail-label">Part A</span><span class="result-detail-value">' + trailState.partAScore + '점</span></div><div class="result-detail-row"><span class="result-detail-label">Part B</span><span class="result-detail-value">' + trailState.partBScore + '점</span></div><div class="result-detail-row"><span class="result-detail-label">총 오류</span><span class="result-detail-value">' + trailState.errors + '회</span></div>';
         document.getElementById('trail-result').style.display = 'flex';
-        sendGameCompleteToAvatar('sequence', 'Trail Making', total, 100);
+        sendGameCompleteToAvatar('sequence', '번호 순서대로 잇기', total, 100);
     }
 
     // ============================================
