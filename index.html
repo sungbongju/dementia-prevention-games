@@ -3346,12 +3346,12 @@
     function handleVoiceCommand(action, game) {
         if (!gameState.playerName && action !== 'CLOSE_MODAL') return;
         switch (action) {
-            case 'START_GAME_HWATU': openGame('hwatu'); break;
-            case 'START_GAME_PATTERN': openGame('yut'); break;
-            case 'START_GAME_MEMORY': openGame('memory'); break;
-            case 'START_GAME_PROVERB': openGame('proverb'); break;
-            case 'START_GAME_CALC': openGame('calc'); break;
-            case 'START_GAME_SEQUENCE': openGame('sequence'); break;
+            case 'START_GAME_STROOP': openGame('hwatu'); break;
+            case 'START_GAME_GONOGO': openGame('yut'); break;
+            case 'START_GAME_NBACK': openGame('memory'); break;
+            case 'START_GAME_PAL': openGame('proverb'); break;
+            case 'START_GAME_UFOV': openGame('calc'); break;
+            case 'START_GAME_TRAIL': openGame('sequence'); break;
             case 'SHOW_MY_RECORDS': showRecordsModal(); break;
             case 'SHOW_DASHBOARD': openDashboard(); break;
             case 'SHOW_RANKING': showRankingModal(); break;
